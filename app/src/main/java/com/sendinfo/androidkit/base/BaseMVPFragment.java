@@ -12,13 +12,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.othershe.nicedialog.NiceDialog;
 import com.sendinfo.androidkit.R;
 import com.sendinfo.androidkit.mvp.IPresenter;
 import com.sendinfo.androidkit.mvp.IView;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.android.FragmentEvent;
-import com.trello.rxlifecycle2.components.RxFragment;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -145,7 +146,7 @@ public abstract class BaseMVPFragment<T extends IPresenter>
 
         if (!StringUtils.isEmpty(msg))
         {
-            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+            ToastUtils.showLong(msg);
         }
     }
 

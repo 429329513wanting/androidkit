@@ -4,8 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.sendinfo.androidkit.R;
 import com.sendinfo.androidkit.module.MainActivity;
+import com.sendinfo.androidkit.module.mecenter.ui.LoginActivity;
+import com.sendinfo.androidkit.util.Constraint;
 import com.sendinfo.androidkit.widget.welcomPage.PageFrameLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,7 +44,16 @@ public class WelcomActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void showMain(String msg){
 
-        ActivityUtils.startActivity(MainActivity.class);
+        SPUtils.getInstance().put(Constraint.IGNORE_WELCOM,"1");
+        if (!SPUtils.getInstance().getString(Constraint.IS_LOGIN).equals("1")){
+
+            ActivityUtils.startActivity(LoginActivity.class);
+
+        }else {
+
+            ActivityUtils.startActivity(MainActivity.class);
+
+        }
         finish();
     }
 }

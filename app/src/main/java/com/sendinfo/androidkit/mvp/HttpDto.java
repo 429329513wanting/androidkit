@@ -174,11 +174,6 @@ public class HttpDto {
         return this;
     }
 
-    public BaseModel getBaseModel() {
-
-        return baseModel;
-    }
-
     public HttpDto setBaseModel(BaseModel baseModel) {
         this.baseModel = baseModel;
         this.params = JsonUtil.getMapForObj(this.baseModel);

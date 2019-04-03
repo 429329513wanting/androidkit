@@ -67,16 +67,15 @@ public class Constraint {
 
 
     //配置属性
-    public static final String BUSINESS_IP = "BUSINESS_IP";
-    public static final String BUSINESS_PORT = "BUSINESS_PORT";
-    public static final String FACE_IP = "FACE_IP";
-    public static final String FACE_PORT = "FACE_PORT";
-    public static final String PARK_CODE = "PARK_CODE";
-    public static final String QUERY_PARK_CODE = "QUERY_PARK_CODE";
-    public static final String GROUP_ID = "GROUP_ID";
-    public static final String GATE_NO = "GATE_NO";
-    public static final String GATE_IP = "GATE_IP";
-    public static final String CARD_TYPE = "CARD_TYPE";
+    public static final String FACE_IP = "face_id";
+    public static final String FACE_PORT = "face_port";
+    public static final String BUSINESS_IP = "business_ip";
+    public static final String BUSINESS_PORT = "business_port";
+
+
+    public static final String IGNORE_WELCOM = "ignore_welcom";
+    public static final String IS_LOGIN = "is_login";
+
 
 
 
