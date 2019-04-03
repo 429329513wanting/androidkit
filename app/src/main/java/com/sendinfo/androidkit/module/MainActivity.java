@@ -157,21 +157,12 @@ public class MainActivity extends BaseMVPActivity<CommonP> implements ICommonVie
                     "确定退出?",
                     "确定",
                     "取消",
-                    new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-
-                            finish();
-                            MyApplication.instance.exitApp();
-                        }
-                    }, new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-
-                            sweetAlertDialog.dismiss();
-
-                        }
-                    });
+                    dialog ->
+                    {
+                        finish();
+                         MyApplication.instance.exitApp();
+                    },
+                    dialog -> dialog.dismiss());
         }
     }
 }
