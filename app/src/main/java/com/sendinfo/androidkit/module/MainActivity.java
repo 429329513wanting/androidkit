@@ -124,6 +124,7 @@ public class MainActivity extends BaseMVPActivity<CommonP> implements ICommonVie
         }catch (InstantiationException e){
 
             e.printStackTrace();
+
         }catch (IllegalAccessException e){
 
             e.printStackTrace();

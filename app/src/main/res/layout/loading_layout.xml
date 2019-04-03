@@ -10,8 +10,8 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loading_lottie"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_100"
         android:layout_gravity="center_horizontal"
         app:lottie_fileName="netloading.json"
         app:lottie_autoPlay="true"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="-10dp"
         android:text="加载中..."
-        android:textSize="14sp"
+        android:textSize="@dimen/sp_14"
         android:textColor="#ffffff" />
 
 </LinearLayout>
