@@ -1,0 +1,25 @@
+package com.sendinfo.facestandard.linetake.bean.aibee;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * Created by admin on 2018-04-20.
+ */
+
+public class AddFace implements Serializable {
+    public VisitorBean visitor;
+    public List<TicketsBean> tickets;
+    public static class VisitorBean {
+        public String visitorId;
+        public String photo;
+        public String additional;
+    }
+    public static class TicketsBean {
+        public String ticketId;
+        public String[] groupIds;
+        public String startTime;
+        public String endTime;
+
+    }
+}

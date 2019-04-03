@@ -1,0 +1,102 @@
+package com.sendinfo.facestandard.linetake.util.other;
+
+import android.content.Context;
+import android.content.res.Configuration;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+/**
+ * <pre>
+ *     author : ghwang
+ *     e-mail : 429329513@qq.com
+ *     time   : 2018/05/29
+ *     desc   :
+ * </pre>
+ */
+
+public class AppUtils {
+
+    // -------------------------- 人脸加密算法相关 ---------------------------
+    //SHA1 加密实例
+    public static String encryptToSHA(String info) {
+        byte[] digesta = null;
+        try {
+            // 得到一个SHA-1的消息摘要
+            MessageDigest alga = MessageDigest.getInstance("SHA-1");
+            // 添加要进行计算摘要的信息
+            alga.update(info.getBytes());
+            // 得到该摘要
+            digesta = alga.digest();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        // 将摘要转为字符串
+        String rs = byte2hex(digesta);
+        return rs;
+    }
+
+
+    public static String byte2hex(byte[] b) {
+        String hs = "";
+        String stmp = "";
+        for (int n = 0; n < b.length; n++) {
+            stmp = (java.lang.Integer.toHexString(b[n] & 0XFF));
+            if (stmp.length() == 1) {
+                hs = hs + "0" + stmp;
+            } else {
+                hs = hs + stmp;
+            }
+        }
+        return hs;
+    }
+
+    //json格式化输出
+    public static String jsonPrintFormat(String jsonStr) {
+        int level = 0;
+        StringBuffer jsonForMatStr = new StringBuffer();
+        for(int i=0;i<jsonStr.length();i++){
+            char c = jsonStr.charAt(i);
+            if(level>0&&'\n'==jsonForMatStr.charAt(jsonForMatStr.length()-1)){
+                jsonForMatStr.append(getLevelStr(level));
+            }
+            switch (c) {
+                case '{':
+                case '[':
+                    jsonForMatStr.append(c+"\n");
+                    level++;
+                    break;
+                case ',':
+                    jsonForMatStr.append(c+"\n");
+                    break;
+                case '}':
+                case ']':
+                    jsonForMatStr.append("\n");
+                    level--;
+                    jsonForMatStr.append(getLevelStr(level));
+                    jsonForMatStr.append(c);
+                    break;
+                default:
+                    jsonForMatStr.append(c);
+                    break;
+            }
+        }
+
+        return jsonForMatStr.toString();
+
+    }
+
+    private static String getLevelStr(int level){
+        StringBuffer levelStr = new StringBuffer();
+        for(int levelI = 0;levelI<level ; levelI++){
+            levelStr.append("\t");
+        }
+        return levelStr.toString();
+    }
+
+    public static boolean isPad(Context context) {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+}

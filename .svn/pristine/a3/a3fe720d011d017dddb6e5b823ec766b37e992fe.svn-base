@@ -1,0 +1,160 @@
+package com.sendinfo.facestandard.linetake.util.other;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
+import android.util.Log;
+
+import com.blankj.utilcode.util.FileUtils;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class FileTools {
+
+    private static String TAG = "FileTools";
+
+    /**
+     * 程序第一次运行时,复制assets目录下面umsips目录到scard中去 函数名：initAssets
+     */
+    public static void initAssets(Context context) {
+        SharedPreferences sp = context.getSharedPreferences("count",
+                context.MODE_WORLD_READABLE);
+        int count = sp.getInt("count", 0);
+
+        if (count == 0) {
+            try {
+                new File(Environment.getExternalStorageDirectory()
+                        + File.separator + "umsips").mkdirs();
+                String[] lists = context.getAssets().list("umsips");
+                for (String list : lists) {
+                    if (list.contains(".")) { // 判断是否为文件
+                        copyFile(context, "umsips" + File.separator + list,
+                                Environment.getExternalStorageDirectory()
+                                        + File.separator + "umsips"
+                                        + File.separator + list);
+                    } else { // 判断为目录
+                        copyDirectiory(context, "umsips" + File.separator
+                                        + list,
+                                Environment.getExternalStorageDirectory()
+                                        + File.separator + "umsips"
+                                        + File.separator + list);
+                    }
+
+                }
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt("count", ++count);
+        editor.commit();
+
+    }
+
+    /**
+     * 描述：复制源文件到目的地址 函数名：copyFile
+     */
+    public static void copyFile(Context context, String sourceFile,
+                                String targetFile) {
+        BufferedInputStream in = null;
+        BufferedOutputStream out = null;
+        try {
+            in = new BufferedInputStream(context.getResources().getAssets()
+                    .open(sourceFile));
+            out = new BufferedOutputStream(new FileOutputStream(targetFile));
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            while ((len = in.read(buffer)) != -1) {
+                out.write(buffer, 0, len);
+            }
+            out.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * 描述：复制源文件夹到目的地址 函数名：copyDirectiory
+     */
+    public static void copyDirectiory(Context context, String sourceDir,
+                                      String targetDir) {
+        // 新建目的目录
+        new File(targetDir).mkdirs();
+        String[] files;
+        try {
+            files = context.getResources().getAssets().list(sourceDir);
+            for (String file : files) {
+                if (file.contains(".")) {
+
+                    Log.i(TAG, file);
+                    copyFile(context, sourceDir + File.separator + file,
+                            new File(targetDir).getCanonicalPath()
+                                    + File.separator + file);
+
+                } else {
+                    Log.i(TAG, file);
+                    copyDirectiory(context, sourceDir + File.separator + file,
+                            targetDir + File.separator + file);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 描述：保存文件
+     */
+    public static String saveFile(String path, byte[] bytes) {
+        try {
+            File file = new File(path);
+            if (file.exists()) file.delete();
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bytes);
+            fos.flush();
+            fos.close();
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
+     * 描述：获取图片
+     */
+    public static Bitmap getFileToBitmap(String path) {
+        try {
+            if(new File(path).exists()) return BitmapFactory.decodeStream(new FileInputStream(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}

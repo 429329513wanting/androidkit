@@ -1,0 +1,255 @@
+package com.sendinfo.facestandard.linetake.module.common;
+
+import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.StringUtils;
+import com.sendinfo.facestandard.linetake.R;
+import com.sendinfo.facestandard.linetake.base.BaseMVPActivity;
+import com.sendinfo.facestandard.linetake.bean.AddFaceInfo;
+import com.sendinfo.facestandard.linetake.bean.AddFaceInfoRsp;
+import com.sendinfo.facestandard.linetake.bean.OrderM;
+import com.sendinfo.facestandard.linetake.bean.aibee.AddFace;
+import com.sendinfo.facestandard.linetake.bean.aibee.FaceResponse;
+import com.sendinfo.facestandard.linetake.dao.OrderDao;
+import com.sendinfo.facestandard.linetake.module.adapter.OrderAdapter;
+import com.sendinfo.facestandard.linetake.mvp.HttpDto;
+import com.sendinfo.facestandard.linetake.mvp.TicketDetailP;
+import com.sendinfo.facestandard.linetake.mvp.TicketDetailView;
+import com.sendinfo.facestandard.linetake.util.Constraint;
+import com.sendinfo.facestandard.linetake.util.JsonUtil.JsonUtil;
+import com.sendinfo.facestandard.linetake.util.image.BitmapUtil;
+import com.sendinfo.facestandard.linetake.util.other.AppUtils;
+import com.sendinfo.facestandard.linetake.util.other.FileTools;
+import com.sendinfo.facestandard.linetake.widget.MyTopNavBar;
+import com.sendinfo.loglib.util.CalendarUtil;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import butterknife.BindView;
+
+public class OrderListActivity extends BaseMVPActivity<TicketDetailP> implements TicketDetailView {
+
+    @BindView(R.id.top_bar)
+    MyTopNavBar topNavBar;
+
+    @BindView(R.id.receive_view)
+    RecyclerView recyclerView;
+
+    private OrderAdapter orderAdapter;
+    private OrderM orderM;
+    private String groupID = "9999";
+
+    @Override
+    protected void initArgs(Intent intent) {
+
+    }
+
+    @Override
+    protected void initView() {
+
+        groupID = SPUtils.getInstance().getString(Constraint.GROUP_ID);
+        if (mPresenter == null) mPresenter = new TicketDetailP(this);
+        topNavBar.setBackClickListener(v -> finish());
+        topNavBar.setTitle("订单列表");
+        orderAdapter = new OrderAdapter(this,R.layout.order_item_layout);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        recyclerView.setAdapter(orderAdapter);
+        reloadData();
+
+        orderAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+
+            orderM = (OrderM) adapter.getData().get(position);
+            if (orderM.getStatus().equals(OrderM.WAITUPLOAD)){
+
+                //提交aibee数据
+                addFaceAibee(orderM.getPosition(),orderM.getPicture());
+
+
+            }else if(orderM.getStatus().equals(OrderM.WAITUPDATENUMBER)){
+
+
+                //更新检票数；
+                postFaceInfo();
+            }
+
+        });
+
+
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_order_list;
+    }
+
+
+    @Override
+    public void onSucess(String data, HttpDto httpDto) {
+
+        if (httpDto.getUrl().endsWith("AddFaceinfo")) {
+
+            AddFaceInfoRsp rsp = JsonUtil.getObject(data, AddFaceInfoRsp.class);
+
+            if ("0".equals(rsp.retcode)){
+
+                orderM.setStatus(OrderM.Over);
+                OrderDao dao = new OrderDao(OrderListActivity.this);
+                dao.updata(orderM);
+                reloadData();
+            }
+        }else if (httpDto.getUrl().endsWith("add")) {
+            //TODO aibee 更新人脸或修改人脸
+            responseAibee(data);
+        }
+    }
+
+    /**
+     * 添加人脸
+     * @param position
+     * @param picPath
+     */
+    private void addFaceAibee(int position, String picPath) {
+        if (position == -1) return;
+        String visitorId="";
+        String ticketId="";
+        //线上票当身份证入脸
+        if ("1".equals(orderM.getBarCodeFlag())){
+
+            if (position == 0) {
+                visitorId = groupID + "_ID_" + orderM.getCertNo();
+            } else {
+                visitorId = groupID + "_ID" + (position + 1) + "_" + orderM.getCertNo();
+            }
+            //ticketId = groupID + "_ID_" + orderM.getCertNo();
+            ticketId = visitorId;
+
+        }else if("0".equals(orderM.getBarCodeFlag()) || orderM.getBarCodeFlag().startsWith("KL")) {
+
+            if (position == 0) {
+                visitorId = groupID + "_BC_" + orderM.getBarCode();
+            } else {
+                visitorId = groupID + "_BC" + (position + 1) + "_" + orderM.getBarCode();
+            }
+            //ticketId = groupID + "_BC_" +orderM.getBarCode();
+            ticketId = visitorId;
+        }
+
+
+
+        String bitmap64 = BitmapUtil.bitmapToBase64(FileTools.getFileToBitmap(picPath));
+        AddFace face = new AddFace();
+        face.visitor = new AddFace.VisitorBean();
+        face.visitor.visitorId = visitorId;
+
+        face.visitor.photo = bitmap64;
+        face.tickets = new ArrayList<>();
+        AddFace.TicketsBean ticket = new AddFace.TicketsBean();
+        if (!StringUtils.isEmpty(orderM.getVisitedId())){
+
+            //替换人脸
+            face.visitor.visitorId = orderM.getVisitedId();
+            ticket.ticketId = orderM.getVisitedId();
+
+        }else {
+
+            ticket.ticketId = ticketId;
+
+        }
+        ticket.groupIds = new String[]{groupID};
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        try {
+            Date date = format.parse(orderM.getEnd());
+            String endTime = CalendarUtil.getDateString(date, "yyyy-MM-dd HH:mm:ss");
+            ticket.endTime = endTime;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Date date = format.parse(orderM.getBegin());
+            LogUtils.d(date);
+            String start = CalendarUtil.getDateString(date, "yyyy-MM-dd HH:mm:ss");
+            ticket.startTime = start;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        face.tickets.add(ticket);
+        String bodyjson = JsonUtil.getJsonString(face);
+        requestAibee(Constraint.ADD_FACE, bodyjson);
+    }
+
+    private void reloadData(){
+
+        OrderDao dao = new OrderDao(this);
+        List<OrderM>datas =  dao.queryAll();
+        orderAdapter.setNewData(datas);
+        orderAdapter.notifyDataSetChanged();
+    }
+
+    private void requestAibee(String uri, String bodyjson) {
+        Map<String, String> heads = new HashMap<>();
+        String nowTime = String.valueOf(System.currentTimeMillis() / 1000);
+        heads.put("Content-Type", "application/json");
+        heads.put("Aibee-Auth-ApiKey", Constraint.ApiKey);
+        heads.put("Aibee-Auth-Timestamp", nowTime);
+        heads.put("Aibee-Auth-Sign", AppUtils.encryptToSHA(bodyjson + nowTime + Constraint.ApiSecret));
+        HttpDto dto = new HttpDto(uri);
+        dto.setHeads(heads);
+        dto.setBodyJson(bodyjson);
+        mPresenter.getData(dto);
+    }
+
+    private void responseAibee(String data) {
+        FaceResponse response = JsonUtil.getObject(data, FaceResponse.class);
+        if (response.error_no == 0)
+        {
+
+            orderM.setStatus(OrderM.WAITUPDATENUMBER);
+            OrderDao dao = new OrderDao(OrderListActivity.this);
+            dao.updata(orderM);
+            reloadData();
+
+            if (StringUtils.isEmpty(orderM.getVisitedId())){
+
+                postFaceInfo();
+
+            }
+        }
+    }
+
+    //更新检票数
+    private void postFaceInfo() {
+        AddFaceInfo info = new AddFaceInfo();
+        info.barcode = orderM.getSubBarCode();
+        info.begindate = orderM.getBegin();
+        info.enddate = orderM.getEnd();
+        info.facecount = "1";
+        info.gateno = SPUtils.getInstance().getString(Constraint.GATE_NO);
+        info.gateip = SPUtils.getInstance().getString(Constraint.GATE_IP);
+        info.parkcode = SPUtils.getInstance().getString(Constraint.PARK_CODE);
+        String bodyjson = JsonUtil.getJsonString(info);
+        HttpDto dto = new HttpDto(Constraint.ADDFACEINFO);
+        dto.setBodyJson(bodyjson);
+        mPresenter.getData(dto);
+    }
+}

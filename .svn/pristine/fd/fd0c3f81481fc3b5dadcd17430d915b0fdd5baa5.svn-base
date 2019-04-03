@@ -1,0 +1,183 @@
+package com.sendinfo.facestandard.linetake.bean;
+
+import java.io.Serializable;
+
+/**
+ * <pre>
+ *     author : ghwang
+ *     e-mail : 429329513@qq.com
+ *     time   : 2018/05/28
+ *     desc   :
+ * </pre>
+ */
+
+public class TicketM implements Serializable {
+
+
+    /**
+     * BARCODE : ET171204000102363573
+     * FACECOUNT : 0
+     * USERCOUNT : 5
+     * LEFTCOUNT : 5
+     * USETIME :
+     * BEGINDATE : 2017/12/4 0:00:00
+     * INVALIDATE : 2017/12/5 0:00:00
+     */
+
+    private String BARCODE;
+    private int FACECOUNT;
+    private int USERCOUNT;
+    private int LEFTCOUNT;
+    private String USETIME;
+    private String BEGINDATE;
+    private String INVALIDATE;
+    private String BARCODEFLAG;
+    private String ISPHOTO;
+    private String USERNAME;
+    private String TELNO;
+    private String TICKETMODELNAME;
+    private int PLAYNUM;//几次入园-1普通票0无限次1二次入园
+    private int REENTERFLAG; //是否二次入园0否1已经二次入园
+    private boolean scanTicket;
+
+    public boolean isScanTicket() {
+        return scanTicket;
+    }
+
+    public void setScanTicket(boolean scanTicket) {
+        this.scanTicket = scanTicket;
+    }
+
+
+    public int getREENTERFLAG() {
+        return REENTERFLAG;
+    }
+
+    public void setREENTERFLAG(int REENTERFLAG) {
+        this.REENTERFLAG = REENTERFLAG;
+    }
+
+    public int getPLAYNUM() {
+        return PLAYNUM;
+    }
+
+    public void setPLAYNUM(int PLAYNUM) {
+        this.PLAYNUM = PLAYNUM;
+    }
+
+    public String getTICKETMODELNAME() {
+        return TICKETMODELNAME;
+    }
+
+    public void setTICKETMODELNAME(String TICKETMODELNAME) {
+        this.TICKETMODELNAME = TICKETMODELNAME;
+    }
+    public String getUSERNAME() {
+        return USERNAME;
+    }
+
+    public void setUSERNAME(String USERNAME) {
+        this.USERNAME = USERNAME;
+    }
+
+    public String getTELNO() {
+        return TELNO;
+    }
+
+    public void setTELNO(String TELNO) {
+        this.TELNO = TELNO;
+    }
+
+    public int getFACECOUNT() {
+        return FACECOUNT;
+    }
+
+    public void setFACECOUNT(int FACECOUNT) {
+        this.FACECOUNT = FACECOUNT;
+    }
+
+    public int getUSERCOUNT() {
+        return USERCOUNT;
+    }
+
+    public void setUSERCOUNT(int USERCOUNT) {
+        this.USERCOUNT = USERCOUNT;
+    }
+
+    public int getLEFTCOUNT() {
+        return LEFTCOUNT;
+    }
+
+    public void setLEFTCOUNT(int LEFTCOUNT) {
+        this.LEFTCOUNT = LEFTCOUNT;
+    }
+
+    private String CERTNO;
+
+    public String getTICKETNAME() {
+        return TICKETNAME;
+    }
+
+    public void setTICKETNAME(String TICKETNAME) {
+        this.TICKETNAME = TICKETNAME;
+    }
+
+    private String TICKETNAME;
+
+
+    public String getBARCODE() {
+        return BARCODE;
+    }
+
+    public void setBARCODE(String BARCODE) {
+        this.BARCODE = BARCODE;
+    }
+
+
+    public String getUSETIME() {
+        return USETIME;
+    }
+
+    public void setUSETIME(String USETIME) {
+        this.USETIME = USETIME;
+    }
+
+    public String getBEGINDATE() {
+        return BEGINDATE;
+    }
+
+    public void setBEGINDATE(String BEGINDATE) {
+        this.BEGINDATE = BEGINDATE;
+    }
+
+    public String getINVALIDATE() {
+        return INVALIDATE;
+    }
+
+    public void setINVALIDATE(String INVALIDATE) {
+        this.INVALIDATE = INVALIDATE;
+    }
+
+    public String getBARCODEFLAG() {
+        return BARCODEFLAG;
+    }
+
+    public void setBARCODEFLAG(String BARCODEFLAG) {
+        this.BARCODEFLAG = BARCODEFLAG;
+    }
+
+    public String getISPHOTO() {
+        return ISPHOTO;
+    }
+
+    public void setISPHOTO(String ISPHOTO) {
+        this.ISPHOTO = ISPHOTO;
+    }
+    public String getCERTNO() {
+        return CERTNO;
+    }
+
+    public void setCERTNO(String CERTNO) {
+        this.CERTNO = CERTNO;
+    }
+}

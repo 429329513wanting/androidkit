@@ -1,0 +1,55 @@
+package com.sendinfo.facestandard.linetake.module.adapter;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.sendinfo.facestandard.linetake.R;
+import com.sendinfo.facestandard.linetake.bean.YearCard;
+import com.sendinfo.facestandard.linetake.util.string.StringUtils;
+
+/**
+ * <pre>
+ *     author : ghwang
+ *     e-mail : 429329513@qq.com
+ *     time   : 2018/06/28
+ *     desc   :
+ * </pre>
+ */
+
+public class YearCardAdapter extends BaseQuickAdapter<YearCard,BaseViewHolder> {
+
+    public YearCardAdapter(int resId){
+
+        super(resId);
+    }
+
+    @Override
+    protected void convert(BaseViewHolder helper, YearCard item) {
+
+
+        helper.setText(R.id.start_tv,"开卡日期:"+item.getBEGINDATE());
+        helper.setText(R.id.end_tv,"结束日期:"+item.getINVALIDATE());
+        if (item.getINVALIDATE().contains("0:00:00")){
+
+            helper.setText(R.id.end_tv,"结束日期:"+item.getINVALIDATE().replace("0:00:00",
+                    "23:59:59"));
+
+        }
+        if (!StringUtils.isEmpty(item.getTOTALNUM())){
+            //酒店
+            helper.setText(R.id.name_tv,"姓名:"+item.getUSERNAME());
+            helper.setText(R.id.card_num_tv,"卡号:"+item.getCARDNO());
+            helper.setText(R.id.card_type_tv,"酒店年卡");
+            helper.setText(R.id.card_name_tv,"名称:"+item.getACCTYPENAME());
+
+
+        }else {
+
+            helper.setText(R.id.name_tv,"姓名:"+item.getACCNAME());
+            helper.setText(R.id.card_num_tv,"卡号:"+item.getCARDPRINTNO());
+            helper.setText(R.id.card_name_tv,"名称:"+item.getACCTYPENAME());
+            helper.setText(R.id.card_type_tv,"年卡");
+
+        }
+
+    }
+}

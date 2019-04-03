@@ -1,0 +1,16 @@
+package com.sendinfo.facestandard.linetake.bean;
+
+/**
+ * <pre>
+ *     author : ghwang
+ *     e-mail : 429329513@qq.com
+ *     time   : 2018/06/06
+ *     desc   :
+ * </pre>
+ */
+
+public class ParkM {
+
+    public String PARKCODE;
+    public String PARKFULLNAME;
+}

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_margin="@dimen/dp_10"
+        android:padding="15dp"
+        android:background="#fff"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ticket_model_name_tv"
+            android:textSize="18sp"
+            android:hint="票型名称:测试票"
+            android:visibility="gone"
+            android:textColor="@color/text_black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:textSize="14sp"
+            android:hint="名称:测试票"
+            android:visibility="gone"
+            android:textColor="@color/text_black2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/bar_code_tv"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginTop="5dp"
+            android:hint="条形码:11111111111111111"
+            android:textColor="@color/text_black2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/amount_tv"
+                android:textSize="@dimen/sp_14"
+                android:hint="总票数:111"
+                android:textColor="@color/text_black2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/face_tv"
+                android:textSize="@dimen/sp_14"
+                android:hint="已录人脸:111"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/text_black2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/can_face_tv"
+                android:textSize="@dimen/sp_14"
+                android:hint="可录人脸:0"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/text_black2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/certno_tv"
+                android:textSize="@dimen/sp_14"
+                android:layout_marginTop="5dp"
+                android:hint="身份证号:11111111111111111"
+                android:textColor="@color/text_black2"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/status_tv"
+                android:textSize="@dimen/sp_14"
+                android:hint="状态:已检"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/text_red"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/phone_tv"
+                android:textSize="@dimen/sp_14"
+                android:layout_marginTop="5dp"
+                android:hint="手机号:111"
+                android:visibility="gone"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/text_black2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/valid_tv"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginTop="5dp"
+            android:hint="有效期:11111111111111111"
+            android:textColor="@color/text_black2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/add_face_btn"
+        android:text="查看详情"
+        android:textSize="@dimen/sp_14"
+        android:gravity="center_vertical"
+        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:textColor="#fff"
+        android:background="@drawable/login_btn_bg"
+        android:layout_gravity="right"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp" />
+
+
+</RelativeLayout>

@@ -1,0 +1,272 @@
+package com.sendinfo.facestandard.linetake.module;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.aibee.aibeegate.Consts;
+import com.aibee.aibeegate.GateView;
+import com.aibee.auth.AibeeAuth;
+import com.blankj.utilcode.util.ToastUtils;
+import com.sendinfo.facestandard.linetake.R;
+import com.sendinfo.facestandard.linetake.base.BaseMVPActivity;
+import com.sendinfo.facestandard.linetake.base.MyApplication;
+import com.sendinfo.facestandard.linetake.bean.StateConst;
+import com.sendinfo.facestandard.linetake.bean.eventbus.PicInfo;
+import com.sendinfo.facestandard.linetake.module.custom.TitleTopState;
+import com.sendinfo.facestandard.linetake.util.Constraint;
+import com.sendinfo.facestandard.linetake.util.klog.KLog;
+import com.sendinfo.facestandard.linetake.util.other.EventBusFactory;
+import com.sendinfo.facestandard.linetake.util.other.FileTools;
+
+import java.io.File;
+import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import butterknife.BindView;
+import butterknife.Unbinder;
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+/**
+ * Created by admin on 2018-04-20.
+ */
+
+public class CameraActivityNew extends BaseMVPActivity {
+
+    @BindView(R.id.rl_root)
+    RelativeLayout rl_root;
+    @BindView(R.id.ll_top)
+    LinearLayout ll_top;
+    @BindView(R.id.tvResult)
+    TextView tvResult;
+
+    @BindView(R.id.iv_head)
+    ImageView faceImgV;
+
+    private Unbinder bind;
+    boolean flag = true;
+    private GateView mGateView;
+    int degree = 0;
+    //橫屏 後置,角度0, 方向1 正常，前置不正常
+    //豎屏 前後置 90   方向 0 正常
+
+    private int pos = -1;
+    int curCameraPosition = 0;
+
+    @Override
+    protected void initArgs(Intent intent) {
+
+        pos = (int) intent.getExtras().get("position");
+
+    }
+
+    @Override
+    protected void initView() {
+
+
+        initGateView();
+    }
+
+
+    private void initGateView() {
+
+        GateView.setPortraitCompareMode(Consts.PortraitCompareMode.OnLine);
+        GateView.setOnlineLicense(Constraint.SdkKey, Constraint.SdkSecret);
+        GateView.setFaceServer(Constraint.AibeeUrl, Constraint.ApiKey, Constraint.ApiSecret);
+        GateView.setNameSpace("sendinfo");
+        GateView.setDebug(false);
+        GateView.setCameraMode(Consts.CameraMode.BACK);//切换前后摄像头
+        GateView.setOrientation(1);//横竖切换
+        GateView.setIsMirrorBackCamera(false);//相机左右镜像
+        GateView.setFaceCaptureTimeout(60 * 1000);//捕获人脸超时时间
+        GateView.setNetworkTimeout(10 * 1000);//网络超时
+        GateView.setCameraDisplayOrientation(degree > 0 ? degree : -1);//摄像头旋转角度
+        GateView.setAuthListener(new MyAuthListener(this));
+        GateView.setTrackerInitListener(new MyInitListener(this));
+
+        try {
+            mGateView = new GateView(getApplicationContext());
+            mGateView.setMinFaceSize(80);//最小人脸
+            mGateView.setBlurThr(0.4f);//清晰度伐值
+            mGateView.setStrictTryTimes(30);//最多清晰人脸尝试次数
+            mGateView.setOcculusionRetryTimeInterval(100);//重试时间间隔
+            if (null == mGateView) return;
+            rl_root.addView(mGateView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    @Override
+    protected void initData() {
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_face_new;
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        flag = true;
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        flag = false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //bind.unbind();
+    }
+
+    @Override
+    public void showToast(String charSequence) {
+        runOnUiThread(() -> ToastUtils.showLong(charSequence));
+    }
+
+    private void updateTopView(String result, int resId) {
+        runOnUiThread(() -> {
+            if (ll_top != null) ll_top.setBackgroundResource(resId);
+            if (tvResult != null) tvResult.setText(result);
+        });
+    }
+
+    private void getPic()
+    {
+        runOnUiThread(()->{
+
+            KLog.i("HJ", "getPic ");
+            new Handler().postDelayed(() -> mGateView.getCapturedFace(new MyCaptureFaceCallback(this)), 300);
+        });
+
+    }
+
+    private static class MyInitListener implements GateView.InitListener {
+        WeakReference<CameraActivityNew> weakReference;
+
+        public MyInitListener(CameraActivityNew activity) {
+            weakReference = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void onInitialized() {
+            CameraActivityNew cameraActivityNew = weakReference.get();
+            if (cameraActivityNew != null) {
+                cameraActivityNew.showToast("人脸模型初始化完成！");
+                cameraActivityNew.getPic();
+            }
+        }
+
+        @Override
+        public void onError(Exception e) {
+            CameraActivityNew cameraActivityNew = weakReference.get();
+            if (cameraActivityNew != null) {
+                cameraActivityNew.showToast("人脸模型初始化失败！");
+                cameraActivityNew.finish();
+            }
+        }
+    }
+
+    private class MyCaptureFaceCallback implements GateView.CaptureFaceCallback {
+        WeakReference<CameraActivityNew> weakReference;
+
+        public MyCaptureFaceCallback(CameraActivityNew activity) {
+            weakReference = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void onSucceed(int faceId, int[] aRegLdmk, byte[] aRegJpeg, byte[] aRegDigest) {
+            CameraActivityNew cameraActivityNew = weakReference.get();
+            if (cameraActivityNew != null) {
+                KLog.i("HJ", "CaptureFaceCallback onSucceed faceId = " + faceId);
+                cameraActivityNew.updateTopView("采集人脸成功!", R.drawable.sucess);
+                String path = cameraActivityNew.getExternalCacheDir().getPath() + File.separator + "sendInfoPic" + File.separator;
+                File file = new File(path);
+                if (!file.exists()) file.mkdirs();
+                path += new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".jpeg";
+
+
+                String finalPath = path;
+                FileTools.saveFile(path, aRegJpeg);
+                runOnUiThread(() -> {
+
+
+                    if (faceImgV != null){
+
+                        faceImgV.setVisibility(View.VISIBLE);
+                        faceImgV.setImageBitmap(FileTools.getFileToBitmap(finalPath));
+
+                    }
+
+                    showWarnDialog("是否上传该张人脸？", new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                            sweetAlertDialog.dismiss();
+                            faceImgV.setVisibility(View.INVISIBLE);
+                            cameraActivityNew.updateTopView("请正视屏幕", R.drawable.sucess);
+                            getPic();
+
+                        }
+                    }, new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                            EventBusFactory.getBus().postSticky(new PicInfo(pos, finalPath));
+                            finish();
+                        }
+                    });
+
+                });
+
+
+
+            }
+        }
+
+        @Override
+        public void onError(int errorCode) {
+            CameraActivityNew cameraActivityNew = weakReference.get();
+            if (cameraActivityNew != null) {
+                KLog.i("HJ", "CaptureFaceCallback errorCode = " + errorCode);
+                String errorMsg = StateConst.valueOf("CODE" + errorCode).getMsg();
+                if (errorMsg == null) errorMsg = "未知,errorCode " + errorCode;
+                cameraActivityNew.updateTopView(errorMsg, R.drawable.failed);
+            }
+        }
+    }
+
+    private static class MyAuthListener implements GateView.AuthListener {
+        WeakReference<CameraActivityNew> weakReference;
+
+        public MyAuthListener(CameraActivityNew activity) {
+            weakReference = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void onResult(AibeeAuth.AuthResult authResult) {
+            CameraActivityNew cameraActivityNew = weakReference.get();
+            if (cameraActivityNew != null) {
+                if (authResult != null && authResult != AibeeAuth.AuthResult.AuthSuccess) {
+                    cameraActivityNew.showToast("Aibee鉴权失败！");
+                    cameraActivityNew.finish();
+                }
+            }
+        }
+    }
+
+}

@@ -1,0 +1,96 @@
+package com.sendinfo.facestandard.linetake.dao;
+
+import android.content.Context;
+
+import com.j256.ormlite.dao.Dao;
+import com.sendinfo.facestandard.linetake.bean.OrderM;
+import com.sendinfo.facestandard.linetake.util.DBHelp.DatabaseHelper;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * <pre>
+ *     author : ghwang
+ *     e-mail : 429329513@qq.com
+ *     time   : 2018/06/22
+ *     desc   :https://blog.csdn.net/industriously/article/details/50790624
+ *     https://blog.csdn.net/u013501637/article/details/52388861
+ * </pre>
+ */
+
+public class OrderDao {
+    private Dao<OrderM,Integer> dao;
+
+    public OrderDao(Context context){
+
+        try {
+            dao = DatabaseHelper.getInstance(context).getOrderDao();
+        }catch (SQLException e){
+
+            e.printStackTrace();
+        }
+    }
+
+    public int add(OrderM orderM){
+
+        try {
+
+            return dao.create(orderM);
+
+        }catch (SQLException e){
+
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
+    public List<OrderM> queryAll(){
+
+        try {
+
+            return dao.queryBuilder().orderBy("id",false).query();
+
+        }catch (SQLException e){
+
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    public int updata(OrderM orderM){
+        try {
+            return dao.update(orderM);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public  void deleteFistAllRetainNum(long num) {
+        try {
+            List<OrderM> orders = dao.queryForAll();
+            long size = 0L;
+            if (null != orders) {
+                size = (long)orders.size();
+            }
+
+            if (size > 0L) {
+                long delteSize = size - num;
+                if (delteSize > 0L) {
+                    List<OrderM> delList = dao.queryBuilder().orderBy("id", true).limit(delteSize).query();
+                    if (null != delList) {
+                        dao.delete(delList);
+                    }
+                }
+            }
+        } catch (SQLException var8) {
+            var8.printStackTrace();
+        }
+
+    }
+
+}

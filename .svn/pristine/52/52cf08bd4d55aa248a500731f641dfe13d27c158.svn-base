@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">普陀山平板人脸</string>
+
+    <string name="local_image">本地图片</string>
+    <string name="scan">扫码</string>
+    <string name="flash_open">开启闪光灯</string>
+    <string name="flash_close">关闭闪光灯</string>
+
+    <string name="tips_scan">将二维码/条码放入框内，即可自动扫描</string>
+</resources>

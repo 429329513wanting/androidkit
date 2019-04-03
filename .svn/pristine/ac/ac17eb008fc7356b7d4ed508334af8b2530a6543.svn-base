@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.simonlee.xcodescanner.view.MaskRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <cn.simonlee.xcodescanner.view.AdjustTextureView
+        android:id="@+id/textureview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <cn.simonlee.xcodescanner.view.ScannerFrameView
+        android:id="@+id/scannerframe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        app:frame_whRatio="1"
+        app:frame_widthRatio="0.7"
+        app:scan_cycle="1500" />
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scannerframe"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@color/gray2"
+        android:padding="5dp"
+        android:text="@string/tips_scan"
+        android:textColor="@color/gray" />
+
+    <Button
+        android:id="@+id/btn_flash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/scannerframe"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:text="@string/flash_open" />
+
+</cn.simonlee.xcodescanner.view.MaskRelativeLayout>

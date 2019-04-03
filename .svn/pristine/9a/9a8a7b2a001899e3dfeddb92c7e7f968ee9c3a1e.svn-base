@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="toolbar_color">#2469df</color>
+
+
+    <color name="blue">#33b5e5</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white_translucent">#EEFFFFFF</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray2">#80898989</color>
+    <color name="gray">#AFAFAF</color>
+
+    <color name="newTv">#FD8625</color>
+
+    <color name="newTvHs">#D9D9D9</color>
+
+    <!-- 文本颜色 -->
+    <color name="primary_text">#252525</color>
+    <color name="secondary_text">#090909</color>
+    <color name="window_background">#F0F0F0</color>
+    <color name="line">#E0E0E0</color>
+    <color name="menu">#60000000</color>
+    <color name="text_black">#333</color>
+    <color name="text_black2">#666</color>
+    <color name="text_black3">#999</color>
+    <color name="text_black4">#bbb</color>
+    <color name="text_blue">#009BDA</color>
+    <color name="text_gray">#b1b1b1</color>
+    <color name="text_orange">#FE6C16</color>
+    <color name="text_red">#E3364B</color>
+    <color name="text_cyan">#8ACB00</color>
+    <color name="text_green">#29A87E</color>
+
+    <color name="bg_orange_n">#EB8600</color>
+    <color name="bg_orange_p">#FE6C16</color>
+
+    <color name="item_ticket">#FE6C16</color>
+    <color name="item_hotel">#009BDA</color>
+    <color name="item_route">#E3364B</color>
+    <color name="item_car">#29A87E</color>
+    <color name="item_guider">#8ACB00</color>
+    <color name="item_combo">#7B68EE</color>
+    <color name="item_goods">#EE82EE</color>
+
+    <color name="custom_header_text">#85B100</color>
+    <color name="custom_selected">#336699</color>
+    <color name="custom_background">#FFFFFF</color>
+    <color name="custom_background_today">#2e91de</color>
+    <color name="custom_background_disabled">#FFFFFF</color>
+    <color name="custom_text_selected">#FFFFFFFF</color>
+    <color name="custom_text_inactive">#7f778088</color>
+
+    <color name="t_line">#30FFFFFF</color>
+
+
+</resources>

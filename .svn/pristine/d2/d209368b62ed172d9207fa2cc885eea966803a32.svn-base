@@ -1,0 +1,35 @@
+package com.sendinfo.facestandard.linetake.bean;
+
+/**
+ * Created by admin on 2018-05-22.
+ */
+public enum StateConst {
+    CODE1(1, "识别超时"),
+    CODE2(2, "ERR_API_KEY_OR_SECRET_NOT_SET"),
+    CODE3(3, "ERR_API_KEY_OR_SECRET_NOT_SET"),
+    CODE4(4, "ERR_INTERNAL"),
+    CODE5(5, "ERR_NETWORK_TIMEOUT"),
+    CODE8(8, "ERR_SERVER_RESPONSE"),
+    CODE11(11, "图片不合格，眼睛有遮挡"),
+    CODE12(12, "图片不合格，嘴巴有遮挡"),
+    CODE13(13, "图片不合格，脸部其他位置有遮挡"),
+    CODE14(14, "图片不合格，角度太大"),
+    CODE15(15, "图片不合格，人脸不完整"),
+    CODE16(16, "图片不合格，人脸模糊");
+
+    private int stateCode;
+    private String msg;
+
+    public int getStateCode() {
+        return stateCode;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    StateConst(int stateCode, String msg) {
+        this.stateCode = stateCode;
+        this.msg = msg;
+    }
+}

@@ -1,0 +1,29 @@
+package com.sendinfo.facestandard.linetake.mvp;
+
+import android.widget.EditText;
+
+import com.trello.rxlifecycle2.LifecycleTransformer;
+
+/**
+ * <pre>
+ *     author : ghwang
+ *     e-mail : 429329513@qq.com
+ *     time   : 2018/05/17
+ *     desc   :
+ * </pre>
+ */
+
+public interface IView {
+
+    void showToast(String msg);
+    void showProgressDialog();
+    void showDialog(String msg);
+    void showDialog(String title,String content);
+    void showErrorDialog(String content);
+    void showSuccessDialog(String content);
+    void dismissDialog();
+    LifecycleTransformer<Object> bindLifeCycle();
+    boolean isFastClick();
+    void hideKeyBoard();
+    void showKeyBoard(EditText editText);
+}

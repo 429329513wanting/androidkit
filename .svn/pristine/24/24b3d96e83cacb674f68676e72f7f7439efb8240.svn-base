@@ -1,0 +1,492 @@
+package com.sendinfo.facestandard.linetake.module;
+
+import android.Manifest;
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
+import com.irozon.sneaker.Sneaker;
+import com.sendinfo.facestandard.linetake.R;
+import com.sendinfo.facestandard.linetake.base.BaseMVPActivity;
+import com.sendinfo.facestandard.linetake.bean.AddFaceInfo;
+import com.sendinfo.facestandard.linetake.bean.AddFaceInfoRsp;
+import com.sendinfo.facestandard.linetake.bean.DataResponse;
+import com.sendinfo.facestandard.linetake.bean.FaceIDVo;
+import com.sendinfo.facestandard.linetake.bean.OrderM;
+import com.sendinfo.facestandard.linetake.bean.PTTicketInfoVo;
+import com.sendinfo.facestandard.linetake.bean.TicketM;
+import com.sendinfo.facestandard.linetake.bean.VisitorBean;
+import com.sendinfo.facestandard.linetake.bean.aibee.AddFace;
+import com.sendinfo.facestandard.linetake.bean.aibee.FaceResponse;
+import com.sendinfo.facestandard.linetake.bean.eventbus.PicInfo;
+import com.sendinfo.facestandard.linetake.dao.OrderDao;
+import com.sendinfo.facestandard.linetake.module.adapter.VisitorAdapter;
+import com.sendinfo.facestandard.linetake.module.common.TrackerFaceActivity;
+import com.sendinfo.facestandard.linetake.mvp.BaseResponse;
+import com.sendinfo.facestandard.linetake.mvp.CommonStringP;
+import com.sendinfo.facestandard.linetake.mvp.HttpDto;
+import com.sendinfo.facestandard.linetake.mvp.ICommonStringView;
+import com.sendinfo.facestandard.linetake.mvp.TicketDetailP;
+import com.sendinfo.facestandard.linetake.mvp.TicketDetailView;
+import com.sendinfo.facestandard.linetake.util.Constraint;
+import com.sendinfo.facestandard.linetake.util.JsonUtil.JsonUtil;
+import com.sendinfo.facestandard.linetake.util.image.BitmapUtil;
+import com.sendinfo.facestandard.linetake.util.other.AppUtils;
+import com.sendinfo.facestandard.linetake.util.other.EventBusFactory;
+import com.sendinfo.facestandard.linetake.util.other.FileTools;
+import com.sendinfo.facestandard.linetake.widget.MyTopNavBar;
+import com.sendinfo.loglib.LogUtil;
+import com.sendinfo.loglib.database.LogLevel;
+import com.sendinfo.loglib.database.LogMessage;
+import com.sendinfo.loglib.util.CalendarUtil;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+public class TicketDetailActivity extends BaseMVPActivity<CommonStringP> implements ICommonStringView, BaseQuickAdapter.OnItemChildClickListener {
+    @BindView(R.id.top_bar)
+    MyTopNavBar top_bar;
+
+    @BindView(R.id.bar_code_tv)
+    TextView bar_code_tv;
+    @BindView(R.id.amount_tv)
+    TextView amount_tv;
+    @BindView(R.id.face_tv)
+    TextView face_tv;
+    @BindView(R.id.valid_tv)
+    TextView valid_tv;
+    @BindView(R.id.can_face_tv)
+    TextView canFaceTv;
+
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.check_btn)
+    Button checkBtn;
+
+    @BindView(R.id.status_tv)
+    TextView statusTv;
+
+    @BindView(R.id.del_btn)
+    Button delBtn;
+
+    private OrderM  orderM;
+    private int leftTicketNumber;
+
+    VisitorAdapter visitorAdapter;
+    private List<PTTicketInfoVo.FACELISTBean> visitorList = new ArrayList<>();
+    private PTTicketInfoVo ticketM;
+    private String groupID = "9572556";
+    private int position;
+    private String picPath;
+
+    int curClickPosition;
+    PTTicketInfoVo.FACELISTBean curClickVisitor;
+    private String curAddFaceID;
+
+    /**
+     * 去掉后两位加密（扫码查询） 身份证查不去掉后2位
+     */
+    private String subBarCode;
+
+    @Override
+    protected void initArgs(Intent intent) {
+
+    }
+
+    @Override
+    protected void initData() {
+        Log.i("initData", "TicketDetailActivity onCreate");
+        checkPermission((permission)->{},Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    @Override
+    protected void initView() {
+        top_bar.setBackClickListener((v) -> {
+            finish();
+        });
+        groupID = SPUtils.getInstance().getString(Constraint.GROUP_ID);
+        if (mPresenter == null) mPresenter = new CommonStringP(this);
+        visitorAdapter = new VisitorAdapter(R.layout.visitor_item_layout, visitorList);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
+        recyclerView.setAdapter(visitorAdapter);
+        visitorAdapter.setOnItemChildClickListener(this);
+
+
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_ticket_detail;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable("ticketM", ticketM);
+        savedInstanceState.putString("subBarCode",subBarCode);
+        savedInstanceState.putSerializable("orderM",orderM);
+        savedInstanceState.putInt("leftTicketNumber",leftTicketNumber);
+
+
+        LogUtil.add(new LogMessage(LogLevel.V,"内存已经释放,并已经保存模型","内存释放",""));
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        ticketM = (PTTicketInfoVo) savedInstanceState.getSerializable("ticketM");
+        subBarCode = savedInstanceState.getString("subBarCode");
+        orderM = (OrderM) savedInstanceState.getSerializable("orderM");
+        leftTicketNumber = savedInstanceState.getInt("leftTicketNumber");
+
+
+        if (ticketM == null){
+
+            LogUtil.add(new LogMessage(LogLevel.V,"模型释放无法正常恢复","内存释放",""));
+
+        }else {
+
+            LogUtil.add(new LogMessage(LogLevel.V,"模型释放正常恢复","内存释放",""));
+            updateView();
+
+        }
+
+        if (StringUtils.isEmpty(subBarCode)){
+
+            subBarCode = SPUtils.getInstance().getString("SubBar");
+        }
+
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onEvent(PicInfo picInfo) {
+        if (mPresenter == null) mPresenter = new CommonStringP(this);
+        position = picInfo.position;
+        picPath = picInfo.picPath;
+
+        addFaceAibee(position,picPath);
+
+        EventBusFactory.getBus().removeStickyEvent(picInfo);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onEvent(PTTicketInfoVo ticket) {
+
+        ticketM = ticket;
+        if (ticketM!=null){
+
+            subBarCode = ticketM.getBARCODE();
+            SPUtils.getInstance().put("SubBar",subBarCode);
+            updateView();
+
+        }
+
+        EventBusFactory.getBus().removeStickyEvent(ticket);
+
+    }
+
+
+    //请求Aibee人脸列表
+    private void getFacesListFromAibee(String faceId) {
+
+        List<String> params = new ArrayList<>();
+        params.add(curAddFaceID);
+        String bodyjson = JsonUtil.getJsonString(params);
+        requestAibee(Constraint.QUERY_FACE, bodyjson);
+
+    }
+
+    //查询票信息
+    private void queryTicketInfo(){
+
+        HttpDto httpDto = new HttpDto(Constraint.PUTUO_QUERYTICKET,true);
+        httpDto.setRequestMethod(HttpDto.GET);
+        Map<String, String> params = new HashMap<>();
+        params.put("barCode", ticketM.getBARCODE());
+        httpDto.setParams(params);
+        mPresenter.getData(httpDto);
+
+    }
+
+    private void updateView() {
+
+
+        bar_code_tv.setText("条形码:"+ticketM.getBARCODE());
+        amount_tv.setText("总票数:"+ticketM.getTICKETCOUNT());
+        face_tv.setText("已录人脸:"+ticketM.getBINDCOUNT());
+        statusTv.setText("状态:"+ticketM.getSTATUS());
+        valid_tv.setText("使用时间:"+ticketM.getUSETIME());
+        canFaceTv.setText("可录人脸:"+ticketM.getCANBINDCOUNT());
+
+
+        int left = ticketM.getCANBINDCOUNT() - ticketM.getBINDCOUNT();
+        visitorList = ticketM.getFACELIST();
+        if (left > 0 ) {
+
+            PTTicketInfoVo.FACELISTBean bean = new PTTicketInfoVo.FACELISTBean();
+            visitorList.add(bean);
+        }
+        visitorAdapter.getData().clear();
+        visitorAdapter.addData(visitorList);
+
+    }
+
+    @Override
+    public void onSucess(String data, HttpDto httpDto) {
+        if (httpDto.getUrl().endsWith("getPhoto")) {
+            //TODO aibee 查询人脸头像返回
+            Type type = new TypeToken<HashMap<String, HashMap<String, String[]>>>() {
+            }.getType();
+            try {
+                HashMap<String, HashMap<String, String[]>> map = new Gson().fromJson(data, type);
+                Set<Map.Entry<String, HashMap<String, String[]>>> entrySet = map.entrySet();
+                List<VisitorBean> visitorList = new ArrayList<>();
+                for (Map.Entry<String, HashMap<String, String[]>> entry : entrySet) {
+                    for (Map.Entry<String, String[]> itemEntry : entry.getValue().entrySet()) {
+
+                        VisitorBean visitor = new VisitorBean();
+                        visitor.ticketId = entry.getKey();
+                        visitor.visitorId = itemEntry.getKey();
+                        visitor.headUrl = itemEntry.getValue()[0];
+                        visitorList.add(visitor);
+                    }
+                }
+
+                //查询人脸获取人脸地址后更新到中间层
+                VisitorBean visitorBean = visitorList.get(0);
+                postFaceInfoForMiddle(visitorBean.headUrl);
+
+            }catch (JsonParseException e){
+
+                e.printStackTrace();
+                showDialog("解析异常");
+                ToastUtils.showLong(data);
+            }
+
+        } else if (httpDto.getUrl().endsWith("add")) {
+
+            //aibee 更新人脸或添加人脸
+
+            responseAibee(data);
+
+        }else if (httpDto.getUrl().endsWith("AddFace")) {
+
+            BaseResponse response = new Gson().fromJson(data,BaseResponse.class);
+            if (response.getCode() == "1"){
+
+                ToastUtils.showShort(response.getResult());
+                queryTicketInfo();
+
+
+            }else {
+
+                showErrorDialog("上传人脸到中间层失败");
+            }
+
+
+        }else if (httpDto.getUrl().endsWith("GetTicketPic")){
+
+            BaseResponse response = new Gson().fromJson(data,BaseResponse.class);
+            ticketM = JsonUtil.getObjectFromObject(response.getData(),PTTicketInfoVo.class);
+            updateView();
+
+        }
+    }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        curClickPosition = position;
+        curClickVisitor = visitorList.get(position);
+
+        if (visitorList.size() == 0) return;
+
+        //没有可检的票时并且要新录入人脸时
+        int left = ticketM.getCANBINDCOUNT() - ticketM.getBINDCOUNT();
+        if (left == 0 && StringUtils.isEmpty(curClickVisitor.getPICURL())){
+
+            showErrorDialog("人脸个数已录最大值");
+            return;
+        }
+
+        if (StringUtils.isEmpty(curClickVisitor.getPICURL())) {
+            jumpToCamera(position);
+            return;
+        }
+
+        //重新录入人脸
+//        showWarnDialog("是否重新录入人脸?", sweetAlertDialog -> dismissDialog(), new SweetAlertDialog.OnSweetClickListener() {
+//
+//            @Override
+//            public void onClick(SweetAlertDialog sweetAlertDialog) {
+//
+//                //直接再调用添加人脸接口会直接覆盖
+//                dismissDialog();
+//                jumpToCamera(curClickPosition);
+//
+//            }
+//        });
+    }
+
+
+    private void addFaceAibee(int position, String picPath) {
+        if (position == -1) return;
+        String visitorId="";
+        String ticketId="";
+
+        visitorId = groupID + "_BC" + (position+1) + "_" + this.ticketM.getBARCODE();
+        ticketId = visitorId;
+
+        String bitmap64 = BitmapUtil.bitmapToBase64(FileTools.getFileToBitmap(picPath));
+        AddFace face = new AddFace();
+        face.visitor = new AddFace.VisitorBean();
+        face.visitor.visitorId = visitorId;
+        curAddFaceID = visitorId;
+
+        face.visitor.photo = bitmap64;
+        face.tickets = new ArrayList<>();
+        AddFace.TicketsBean ticket = new AddFace.TicketsBean();
+        if (!StringUtils.isEmpty(curClickVisitor.getVisitorId())){
+
+            //替换人脸
+            face.visitor.visitorId = curClickVisitor.getVisitorId();
+            ticket.ticketId = curClickVisitor.getVisitorId();
+
+        }else {
+
+            ticket.ticketId = ticketId;
+        }
+        ticket.groupIds = new String[]{groupID};
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//        try {
+//            Date date = format.parse(ticketM.getINVALIDATE());
+//            String endTime = CalendarUtil.getDateString(date, "yyyy-MM-dd HH:mm:ss");
+//            ticket.endTime = endTime;
+//
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            Date date = format.parse(ticketM.getBEGINDATE());
+//            LogUtils.d(date);
+//            String start = CalendarUtil.getDateString(date, "yyyy-MM-dd HH:mm:ss");
+//            ticket.startTime = start;
+//
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+
+
+        face.tickets.add(ticket);
+        String bodyjson = JsonUtil.getJsonString(face);
+        requestAibee(Constraint.ADD_FACE, bodyjson);
+    }
+
+    private void requestAibee(String uri, String bodyjson) {
+        Map<String, String> heads = new HashMap<>();
+        String nowTime = String.valueOf(System.currentTimeMillis() / 1000);
+        heads.put("Content-Type", "application/json");
+        heads.put("Aibee-Auth-ApiKey", Constraint.ApiKey);
+        heads.put("Aibee-Auth-Timestamp", nowTime);
+        heads.put("Aibee-Auth-Sign", AppUtils.encryptToSHA(bodyjson + nowTime + Constraint.ApiSecret));
+        HttpDto dto = new HttpDto(uri);
+        dto.setHeads(heads);
+        dto.setBodyJson(bodyjson);
+        mPresenter.getData(dto);
+    }
+
+    private void responseAibee(String data) {
+        FaceResponse response = JsonUtil.getObject(data, FaceResponse.class);
+        if (response.error_no == 0) {
+            if (StringUtils.isEmpty(visitorList.get(position).getVisitorId())) {
+
+                //新添加人脸
+                if (StringUtils.isEmpty(curClickVisitor.getVisitorId())){
+
+                    getFacesListFromAibee(curAddFaceID);
+
+                }
+
+            } else {
+
+                //修改人脸
+
+            }
+        } else {
+            showDialog(response.error_msg,
+                    "取消", "重新提交",
+                    (dialog) -> {
+                        dialog.dismiss();
+                    }, (dialog) -> {
+                        addFaceAibee(position, picPath);
+                    });
+        }
+    }
+
+    //aibee返回人脸路径后上传给中间层
+    private void postFaceInfoForMiddle(String aibeePicPath) {
+
+        List<String> sss = Arrays.asList(aibeePicPath.split("com"));
+        Map<String,String>params = new HashMap<>();
+        params.put("barCode",ticketM.getBARCODE());
+        params.put("pic",sss.get(1));
+        params.put("picUrl",sss.get(0)+"com");
+        HttpDto dto = new HttpDto( Constraint.PUTUO_UPFACE);
+        dto.setRequestMethod(HttpDto.GET);
+        dto.setParams(params);
+        mPresenter.getData(dto);
+    }
+
+    @OnClick({R.id.check_btn,R.id.del_btn})
+    public void viewClick(View view) {
+
+    }
+
+    private void jumpToCamera(int position) {
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("position",position);
+        ActivityUtils.startActivity(bundle,CameraActivityNew.class);
+
+    }
+}

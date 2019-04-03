@@ -1,0 +1,77 @@
+package com.sendinfo.facestandard.linetake.util.other;
+
+import com.blankj.utilcode.util.LogUtils;
+
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+
+/**
+ * <pre>
+ *     author : ghwang
+ *     e-mail : 429329513@qq.com
+ *     time   : 2018/05/31
+ *     desc   :倒计时
+ * </pre>
+ */
+
+public class RxCountDown {
+
+
+    private static Observable<Integer> countDown(int time){
+
+        if (time<0) {
+            time=0 ;
+        }
+
+        final int countTime = time;
+
+        return Observable.interval(0,1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(aLong -> countTime - aLong.intValue()).take(countTime+1);
+
+    }
+
+    public static void fire(int time,CountDownListener listener){
+
+        countDown(time).doOnSubscribe(disposable -> {
+
+        }).subscribe(new Observer<Integer>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+
+                if (listener != null){
+
+                    listener.showCount(integer);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+                LogUtils.d("计时完成");
+            }
+        });
+
+    }
+
+    public interface CountDownListener{
+
+         void showCount(Integer count);
+    }
+}

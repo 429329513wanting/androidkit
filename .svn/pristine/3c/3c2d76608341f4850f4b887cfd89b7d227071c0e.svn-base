@@ -1,0 +1,28 @@
+package com.sendinfo.facestandard.linetake.bean.aibee;
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * Created by admin on 2018-04-20.
+ */
+public class FaceResponse implements Serializable {
+
+    /**
+     * data : [{"visitorId":"zmj_visitor_1","error_msg":"图片处理失败"},{"visitorId":"zmj_visitor_2","error_msg":"photo 字段不是合法的 base64 编码"}]
+     * error_msg : 图片无法处理
+     * error_no : 400
+     * requestId : 34e9090f-9c0f-4d05-875f-1e3a64dc9333
+     */
+    public String error_msg;
+    public int error_no;
+    public String requestId;
+    public List<DataBean> data;
+    public static class DataBean {
+        /**
+         * visitorId : zmj_visitor_1
+         * error_msg : 图片处理失败
+         */
+        public String visitorId;
+        public String error_msg;
+    }
+}

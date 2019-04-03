@@ -1,0 +1,5 @@
+package com.sendinfo.facestandard.linetake.module.custom;
+
+public interface OnDoubleClickListener {
+    void onDoubleClick();
+}

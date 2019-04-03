@@ -1,0 +1,45 @@
+package com.sendinfo.facestandard.linetake.module.adapter;
+
+import android.view.View;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.sendinfo.facestandard.linetake.R;
+import com.sendinfo.facestandard.linetake.bean.PTTicketInfoVo;
+import com.sendinfo.facestandard.linetake.bean.TicketM;
+import com.sendinfo.facestandard.linetake.util.string.StringUtils;
+
+import java.util.List;
+
+/**
+ * <pre>
+ *     author : ghwang
+ *     e-mail : 429329513@qq.com
+ *     time   : 2018/05/28
+ *     desc   :
+ * </pre>
+ */
+
+public class TicketAdapter extends BaseQuickAdapter<PTTicketInfoVo,BaseViewHolder>{
+
+    public TicketAdapter(int layoutResId) {
+        super(layoutResId);
+    }
+    public void reloadData(List<PTTicketInfoVo>ticketMS){
+
+        setNewData(ticketMS);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    protected void convert(BaseViewHolder helper, PTTicketInfoVo item) {
+
+        helper.setText(R.id.bar_code_tv,"条形码:"+item.getBARCODE());
+        helper.setText(R.id.amount_tv,"总票数:"+item.getTICKETCOUNT());
+        helper.setText(R.id.face_tv,"已录人脸:"+item.getBINDCOUNT());
+        helper.setText(R.id.can_face_tv,"可录人脸:"+item.getCANBINDCOUNT());
+        helper.setText(R.id.status_tv,"状态:"+item.getSTATUS());
+        helper.setText(R.id.valid_tv,"使用时间:"+item.getUSETIME());
+
+    }
+}
