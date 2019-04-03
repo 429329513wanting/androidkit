@@ -1,9 +1,0 @@
-package com.sendinfo.facestandard.linetake.bean;
-
-/**
- * Created by admin on 2018-05-30.
- */
-public class AddFaceInfoRsp {
-    public String retcode;
-    public String retMsg;
-}
