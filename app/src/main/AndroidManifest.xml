@@ -64,6 +64,7 @@ package="com.sendinfo.androidkit">
     tools:replace="android:icon,android:theme,android:allowBackup">
     <activity
         android:name="com.sendinfo.androidkit.module.MainActivity"
+        android:screenOrientation="landscape"
         android:windowSoftInputMode="adjustResize|stateHidden">
 
         <intent-filter>

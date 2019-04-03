@@ -3,6 +3,8 @@ package com.sendinfo.androidkit.mvp;
 import com.blankj.utilcode.util.ToastUtils;
 import com.sendinfo.androidkit.util.JsonUtil.JsonUtil;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 /**
  * <pre>
@@ -30,7 +32,7 @@ public class CommonP extends IPresenterImpl<ICommonView ,BaseResponse> implement
 
         }catch (Exception e){
 
-            ToastUtils.showLong("解析异常");
+            mView.showDialog(SweetAlertDialog.ERROR_TYPE,"提示","解析异常");
             e.printStackTrace();
         }
 

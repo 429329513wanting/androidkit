@@ -35,7 +35,6 @@ public class MyApplication extends Application {
     private static Context context;
     private static LinkedList<Activity> activityLinkedList;
 
-    public boolean isFaceAuthSuccess = false;
 
 
     @Override

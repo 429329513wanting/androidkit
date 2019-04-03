@@ -30,10 +30,8 @@ public class HttpDto {
     public final static int PUT = 0x100003;
 
     private String url;
-
-    private int requestMethod = POST;
+    private int method = POST;
     private Object tag;
-
 
 
     //是否显示加载网络提示框
@@ -47,8 +45,10 @@ public class HttpDto {
     //json格式字符串提交
     private String bodyJson;
 
+    private BaseModel baseModel;
 
-    private Map<String, String> heads;
+
+    private Map<String, String> headers;
 
     public HttpDto(String url){
 
@@ -67,26 +67,26 @@ public class HttpDto {
                         SPUtils.getInstance().getString(Constraint.BUSINESS_IP)
                                 +":"+SPUtils.getInstance().getString(Constraint.BUSINESS_PORT));
 
-        heads = new HashMap<>();
+        headers = new HashMap<>();
         this.silence = silence;
     }
 
     public Request getRequest(){
 
         Request request = null;
-        if (requestMethod == POST){
+        if (method == POST){
 
             request = OkGo.post(url);
 
-        }else if(requestMethod == GET){
+        }else if(method == GET){
 
             request = OkGo.get(url);
 
-        }else if(requestMethod == DELETE){
+        }else if(method == DELETE){
 
             request = OkGo.delete(url);
 
-        }else if(requestMethod == PUT){
+        }else if(method == PUT){
 
             request = OkGo.put(url);
 
@@ -106,9 +106,9 @@ public class HttpDto {
         {
             ((BodyRequest) request).upJson(bodyJson);
         }
-        if(heads != null)
+        if(headers != null)
         {
-            for(Map.Entry<String, String> entry : heads.entrySet())
+            for(Map.Entry<String, String> entry : headers.entrySet())
             {
                 request.headers(entry.getKey(), entry.getValue());
             }
@@ -124,20 +124,24 @@ public class HttpDto {
         this.params = params;
     }
 
-    public Map<String, String> getHeads() {
-        return heads;
+    public Map<String, String> getHeaders() {
+        return headers;
     }
 
-    public void setHeads(Map<String, String> heads) {
-        this.heads = heads;
+    public HttpDto setHeaders(Map<String, String> heads) {
+        this.headers = heads;
+        return this;
     }
 
-    public int getRequestMethod() {
-        return requestMethod;
+    public int getMethod() {
+
+        return method;
     }
 
-    public void setRequestMethod(int requestMethod) {
-        this.requestMethod = requestMethod;
+    public HttpDto setMethod(int method) {
+
+        this.method = method;
+        return this;
     }
 
     public Object getTag() {
@@ -169,6 +173,18 @@ public class HttpDto {
         this.bodyJson = bodyJson;
         return this;
     }
+
+    public BaseModel getBaseModel() {
+
+        return baseModel;
+    }
+
+    public HttpDto setBaseModel(BaseModel baseModel) {
+        this.baseModel = baseModel;
+        this.params = JsonUtil.getMapForObj(this.baseModel);
+        return this;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -180,14 +196,15 @@ public class HttpDto {
         return silence;
     }
 
-    public void setSilence(boolean silence) {
+    public HttpDto setSilence(boolean silence) {
         this.silence = silence;
+        return this;
     }
 
     public void print()
     {
         KLog.d("╔══════════════════════════════════════════════════");
-        KLog.d("║    "+getHttpRequestMethod()+":"+url);
+        KLog.d("║    "+getHttpmethod()+":"+url);
         if(params != null)
         {
             KLog.d("║    请求参数为:");
@@ -217,10 +234,10 @@ public class HttpDto {
 
         KLog.d("║    ");
 
-        if(heads != null)
+        if(headers != null)
         {
             KLog.d("║    请求头为:");
-            for(Map.Entry<String, String> entry : heads.entrySet())
+            for(Map.Entry<String, String> entry : headers.entrySet())
             {
                 KLog.d("║    "+entry.getKey()+" = "+entry.getValue());
             }
@@ -229,12 +246,14 @@ public class HttpDto {
         KLog.d("╚══════════════════════════════════════════════════");
 
     }
-    private String getHttpRequestMethod(){
+    private String getHttpmethod(){
 
-        if (requestMethod == POST){
+        if (method == POST){
 
             return "POST";
+
         }else {
+
             return "GET";
         }
     }

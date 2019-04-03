@@ -4,11 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.sendinfo.androidkit.module.MainActivity">
 
     <Button
         android:id="@+id/click_btn"
         android:text="netclick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/alert_btn"
+        android:text="dialogclick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

@@ -31,7 +31,6 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.reactivex.annotations.NonNull;
