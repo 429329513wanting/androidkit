@@ -252,9 +252,18 @@ public class HttpDto {
 
             return "POST";
 
-        }else {
+        }else if (method == GET){
 
             return "GET";
+
+        }else if (method == DELETE){
+
+            return "DELETE";
+
+        }else if (method == PUT){
+
+            return "PUT";
         }
+        return "";
     }
 }
