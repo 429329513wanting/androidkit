@@ -23,46 +23,10 @@ public class Constraint {
     public static final String FACE_SERVER = "https://###/";
     public static final String SERVER = "http://@@@/";
 
-    //aibee
-    //单个人买票
-    public static final String ADD_FACE = FACE_SERVER+"tickets/v1/add";
-    //查询人脸
-    public static final String QUERY_FACE = FACE_SERVER+"tickets/v1/getPhoto";
-    //删除人脸
-    public static final String REMOVE_FACE = FACE_SERVER+"tickets/v1/remove";
-
 
     //登录
-    public static final String LOGIN = SERVER+"api/CheckLogin";
+    public static final String LOGIN = SERVER+"api/user/loginByMobile.htm";
 
-    //查询票接口
-    public static final String QUERY_TICKET = SERVER+"api/QueryTicketInfo";
-
-    //检票
-    public static final String CHECKT_TICKET = SERVER+"api/CheckTicket";
-
-    public static final String ADDFACEINFO = SERVER+"api/AddFaceinfo";
-
-    //查询景点
-    public static final String PARKLIST = SERVER+"api/GetParkInfo";
-
-    //查询年卡
-    public static final String QUERY_YEARCARD = SERVER+"api/QueryICcardInfo";
-
-    //查询faceID
-    public static final String FACE_IDS = SERVER+"api/BarcodeFaceId";
-
-    //年卡检票
-    public static final String YEAR_CARD_CHECKUP = SERVER+"api/CheckICcardInfo";
-
-
-    ///////////////普陀山业务
-
-    //查票
-    public static final String PUTUO_QUERYTICKET = SERVER+"api/face/Face/GetTicketPic";
-
-    //上传人脸地址
-    public static final String PUTUO_UPFACE = SERVER+"api/face/Face/AddFace";
 
 
 

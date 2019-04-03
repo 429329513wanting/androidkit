@@ -38,13 +38,7 @@ public class HomeFragment extends BaseMVPFragment<CommonP> implements ICommonVie
     @Override
     protected void initData() {
 
-        HttpDto dto = new HttpDto(Constraint.ADD_FACE);
-        BaseModel baseModel = new BaseModel();
-        baseModel.username = "000";
-        baseModel.password = "123456";
-        HashMap<String,String> headers = new HashMap<>();
-        dto.setBaseModel(baseModel).setHeaders(headers).setMethod(HttpDto.GET).setSilence(false);
-        mPresenter.getData(dto);
+
     }
 
     @Override

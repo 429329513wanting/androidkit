@@ -6,16 +6,23 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.EncryptUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.sendinfo.androidkit.R;
 import com.sendinfo.androidkit.base.BaseMVPActivity;
 import com.sendinfo.androidkit.base.BaseMVPFragment;
+import com.sendinfo.androidkit.bean.LoginVo;
 import com.sendinfo.androidkit.module.MainActivity;
+import com.sendinfo.androidkit.module.mecenter.contract.LoginContract;
+import com.sendinfo.androidkit.module.mecenter.presenter.LoginPresenter;
+import com.sendinfo.androidkit.mvp.BaseModel;
+import com.sendinfo.androidkit.mvp.HttpDto;
 import com.sendinfo.androidkit.util.Constraint;
 
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseMVPActivity {
+public class LoginActivity extends BaseMVPActivity<LoginContract.Presenter>
+        implements LoginContract.View {
 
     @Override
     protected void initArgs(Intent intent) {
@@ -25,6 +32,8 @@ public class LoginActivity extends BaseMVPActivity {
     @Override
     protected void initView() {
 
+        myTopNavBar.setVisibility(View.GONE);
+        mPresenter = new LoginPresenter(this);
     }
 
     @Override
@@ -38,6 +47,18 @@ public class LoginActivity extends BaseMVPActivity {
     }
     @OnClick(R.id.login_btn)
     public void viewClick(View view){
+
+        HttpDto httpDto = new HttpDto(Constraint.LOGIN);
+        BaseModel baseModel = new BaseModel();
+        baseModel.username = "15257958840";
+        baseModel.checkCode = "123456";
+        httpDto.setBaseModel(baseModel);
+        mPresenter.getData(httpDto);
+
+    }
+
+    @Override
+    public void loginSuccess(LoginVo loginVo) {
 
         SPUtils.getInstance().put(Constraint.IS_LOGIN,"1");
         ActivityUtils.startActivity(MainActivity.class);

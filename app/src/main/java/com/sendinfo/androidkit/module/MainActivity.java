@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 
+import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -39,8 +40,8 @@ public class MainActivity extends BaseMVPActivity<CommonP> implements ICommonVie
     @Override
     protected void initView() {
 
+        myTopNavBar.setVisibility(View.GONE);
         mPresenter = new CommonP(this);
-
         fragmentManager = getSupportFragmentManager();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -146,9 +147,9 @@ public class MainActivity extends BaseMVPActivity<CommonP> implements ICommonVie
     public void exit() {
         if ((System.currentTimeMillis() - mExitTime) > 3000) {
 
-            ToastUtils.showLong("再按一次退出");
-
+            //ToastUtils.showLong("再按一次退出");
             mExitTime = System.currentTimeMillis();
+
         } else {
 
             showDialog(SweetAlertDialog.WARNING_TYPE,
@@ -166,6 +167,8 @@ public class MainActivity extends BaseMVPActivity<CommonP> implements ICommonVie
                     }, new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                            sweetAlertDialog.dismiss();
 
                         }
                     });

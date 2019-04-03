@@ -7,6 +7,7 @@ import android.view.View;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.sendinfo.androidkit.R;
+import com.sendinfo.androidkit.base.BaseMVPActivity;
 import com.sendinfo.androidkit.base.BaseMVPFragment;
 import com.sendinfo.androidkit.util.Constraint;
 

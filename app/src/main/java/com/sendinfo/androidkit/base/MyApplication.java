@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.Utils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
@@ -15,6 +16,7 @@ import com.lzy.okgo.cookie.store.SPCookieStore;
 import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
+import com.sendinfo.androidkit.util.Constraint;
 import com.sendinfo.androidkit.widget.KLog.KLog;
 
 import java.util.LinkedList;
@@ -49,6 +51,10 @@ public class MyApplication extends Application {
         activityLinkedList = new LinkedList<>();
         instance = this;
         context = getApplicationContext();
+
+        SPUtils.getInstance().put(Constraint.BUSINESS_IP,"60.191.224.157");
+        SPUtils.getInstance().put(Constraint.BUSINESS_PORT,"8750");
+
         initHttp();
 
 

@@ -13,34 +13,39 @@ import java.io.Serializable;
 
 public class BaseResponse implements Serializable{
 
-    private Object Data;
-    private String Result;
-    private String Code;
 
+    private Object result;
+    private String msg;
+    private String code;
 
-    public Object getData() {
-        return Data;
+    public Object getResult() {
+        return result;
     }
 
-    public void setData(Object data) {
-        Data = data;
+    public void setResult(Object result) {
+        this.result = result;
     }
 
-    public String getResult() {
-        return Result;
+
+    public String getMsg() {
+        return msg;
     }
 
-    public void setResult(String result) {
-        Result = result;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
+
 
     public String getCode() {
-        return Code;
+        return code;
     }
 
     public void setCode(String code) {
-        Code = code;
+        this.code = code;
     }
+
+
+
 
 
 
