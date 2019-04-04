@@ -8,6 +8,7 @@ import android.view.View;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.EncryptUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.gyf.barlibrary.ImmersionBar;
 import com.sendinfo.androidkit.R;
 import com.sendinfo.androidkit.base.BaseMVPActivity;
 import com.sendinfo.androidkit.base.BaseMVPFragment;
@@ -34,6 +35,7 @@ public class LoginActivity extends BaseMVPActivity<LoginContract.Presenter>
 
         myTopNavBar.setVisibility(View.GONE);
         mPresenter = new LoginPresenter(this);
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
     }
 
     @Override
@@ -58,8 +60,14 @@ public class LoginActivity extends BaseMVPActivity<LoginContract.Presenter>
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public void loginSuccess(LoginVo loginVo) {
 
+        ImmersionBar.with(this).statusBarDarkFont(false).init();
         SPUtils.getInstance().put(Constraint.IS_LOGIN,"1");
         ActivityUtils.startActivity(MainActivity.class);
         finish();
