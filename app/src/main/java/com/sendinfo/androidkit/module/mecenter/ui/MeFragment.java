@@ -43,11 +43,10 @@ public class MeFragment extends BaseMVPFragment {
     @OnClick(R.id.logout_btn)
     public void viewClick(View view){
 
-        YoYo.with(Techniques.FadeOut).duration(3).playOn(view);
-//
-//        SPUtils.getInstance().put(Constraint.IS_LOGIN,"0");
-//        Intent intent = new Intent(getContext(),LoginActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-//        ActivityUtils.startActivity(intent);
+
+        SPUtils.getInstance().put(Constraint.IS_LOGIN,"0");
+        Intent intent = new Intent(getContext(),LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        ActivityUtils.startActivity(intent);
     }
 }
