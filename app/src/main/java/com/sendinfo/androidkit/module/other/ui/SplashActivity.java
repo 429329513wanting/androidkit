@@ -1,6 +1,7 @@
 package com.sendinfo.androidkit.module.other.ui;
 
 import android.animation.Animator;
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -13,7 +14,7 @@ import com.sendinfo.androidkit.module.MainActivity;
 import com.sendinfo.androidkit.module.mecenter.ui.LoginActivity;
 import com.sendinfo.androidkit.util.Constraint;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends Activity {
 
     private LottieAnimationView animationView;
     @Override

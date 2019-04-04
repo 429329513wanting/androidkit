@@ -30,7 +30,17 @@ public class LoginPresenter extends IPresenterImpl<LoginContract.View, BaseRespo
     public void requestSuccess(String s, HttpDto httpDto) {
         super.requestSuccess(s, httpDto);
 
-        BaseResponse response = JsonUtil.getObject(s,BaseResponse.class);
+        BaseResponse response = null;
+        try {
+
+            response = JsonUtil.getObject(s,BaseResponse.class);
+
+        }catch (Exception e){
+
+            mView.showDialog(SweetAlertDialog.WARNING_TYPE,"提示","解析异常");
+            return;
+
+        }
         if (!response.getCode().equals("200")){
 
             mView.showDialog(SweetAlertDialog.WARNING_TYPE,"提示",response.getMsg());

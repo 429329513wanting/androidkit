@@ -114,7 +114,7 @@ public class IPresenterImpl<T extends IView,V> implements IPresenter,
             }
 
             /**
-             * 解析错误会回调这里
+             * 解析错误会回调这里,如果提前进行解析
              * @param e
              */
             @Override public void onError(Throwable e)

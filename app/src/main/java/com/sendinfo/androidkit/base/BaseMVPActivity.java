@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.gyf.barlibrary.ImmersionBar;
 import com.othershe.nicedialog.NiceDialog;
 import com.sendinfo.androidkit.R;
 import com.sendinfo.androidkit.mvp.IPresenter;
@@ -72,6 +73,8 @@ public abstract class BaseMVPActivity<T extends IPresenter>
         ButterKnife.bind(this);
         rxPermissions = new RxPermissions(this);
 
+        ImmersionBar.with(this).init();
+
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         try {
             initArgs(getIntent());
@@ -126,6 +129,8 @@ public abstract class BaseMVPActivity<T extends IPresenter>
         }
 
         EventBus.getDefault().unregister(this);
+
+        ImmersionBar.with(this).destroy();
 
         super.onDestroy();
 

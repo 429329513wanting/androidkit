@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_45"
+    android:padding="@dimen/dp_10">
+
+    <TextView
+        android:id="@+id/name_tv"
+        android:textSize="@dimen/sp_18"
+        android:gravity="center"
+        android:hint="11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

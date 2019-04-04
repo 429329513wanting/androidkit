@@ -1,17 +1,34 @@
 package com.sendinfo.androidkit.module.home.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.sendinfo.androidkit.R;
 import com.sendinfo.androidkit.base.BaseMVPFragment;
+import com.sendinfo.androidkit.bean.LoginVo;
+import com.sendinfo.androidkit.module.home.adapter.TestAdapter;
 import com.sendinfo.androidkit.mvp.BaseModel;
 import com.sendinfo.androidkit.mvp.BaseResponse;
 import com.sendinfo.androidkit.mvp.CommonP;
 import com.sendinfo.androidkit.mvp.HttpDto;
 import com.sendinfo.androidkit.mvp.ICommonView;
 import com.sendinfo.androidkit.util.Constraint;
+import com.sendinfo.androidkit.widget.refreshHeader.LottiRefreshHeader;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import butterknife.BindView;
 
 /**
  * <pre>
@@ -23,9 +40,24 @@ import java.util.HashMap;
  */
 
 public class HomeFragment extends BaseMVPFragment<CommonP> implements ICommonView {
+
+    @BindView(R.id.sr_refresh)
+    SmartRefreshLayout refreshLayout;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+
+    List<LoginVo>datas = new ArrayList<>();
+    private TestAdapter adapter;
+
     @Override
     protected void initArgs(Bundle bundle) {
 
+        for (int i=0;i<20;i++){
+
+            LoginVo vo = new LoginVo();
+            vo.setUser("测试"+i);
+            datas.add(vo);
+        }
     }
 
     @Override
@@ -33,6 +65,7 @@ public class HomeFragment extends BaseMVPFragment<CommonP> implements ICommonVie
 
         setContentView(R.layout.fragment_home);
         mPresenter = new CommonP(this);
+        initRecyc();
     }
 
     @Override
@@ -41,6 +74,42 @@ public class HomeFragment extends BaseMVPFragment<CommonP> implements ICommonVie
 
     }
 
+    private void initRecyc(){
+
+        adapter = new TestAdapter(R.layout.cell_item_layout,datas);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+
+        refreshLayout.setRefreshHeader(new LottiRefreshHeader(getContext()));
+        refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        refreshLayout.finishRefresh();
+                    }
+                },2000);
+
+            }
+        });
+
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+
+                refreshLayout.finishLoadMore(2000);
+
+            }
+        });
+
+
+    }
     @Override
     public void Success(BaseResponse response) {
 
