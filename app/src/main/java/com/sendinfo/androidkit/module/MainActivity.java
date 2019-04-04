@@ -40,7 +40,7 @@ public class MainActivity extends BaseMVPActivity<CommonP> implements ICommonVie
     @Override
     protected void initView() {
 
-        myTopNavBar.setVisibility(View.GONE);
+        //myTopNavBar.setVisibility(View.GONE);
         fragmentManager = getSupportFragmentManager();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

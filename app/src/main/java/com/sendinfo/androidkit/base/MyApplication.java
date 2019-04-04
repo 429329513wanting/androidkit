@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.multidex.MultiDex;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -51,6 +52,7 @@ public class MyApplication extends Application {
         activityLinkedList = new LinkedList<>();
         instance = this;
         context = getApplicationContext();
+        MultiDex.install(this);
 
         SPUtils.getInstance().put(Constraint.BUSINESS_IP,"60.191.224.157");
         SPUtils.getInstance().put(Constraint.BUSINESS_PORT,"8750");

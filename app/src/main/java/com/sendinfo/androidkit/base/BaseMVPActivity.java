@@ -151,7 +151,7 @@ public abstract class BaseMVPActivity<T extends IPresenter>
                 .setLayoutId(R.layout.loading_layout)
                 .setWidth(135)
                 .setHeight(135)
-                .setOutCancel(true)
+                .setOutCancel(false)
                 .setDimAmount(0)
                 .show(getSupportFragmentManager());
 

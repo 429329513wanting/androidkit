@@ -6,6 +6,8 @@ import android.view.View;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.sendinfo.androidkit.R;
 import com.sendinfo.androidkit.base.BaseMVPActivity;
 import com.sendinfo.androidkit.base.BaseMVPFragment;
@@ -41,9 +43,11 @@ public class MeFragment extends BaseMVPFragment {
     @OnClick(R.id.logout_btn)
     public void viewClick(View view){
 
-        SPUtils.getInstance().put(Constraint.IS_LOGIN,"0");
-        Intent intent = new Intent(getContext(),LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        ActivityUtils.startActivity(intent);
+        YoYo.with(Techniques.FadeOut).duration(3).playOn(view);
+//
+//        SPUtils.getInstance().put(Constraint.IS_LOGIN,"0");
+//        Intent intent = new Intent(getContext(),LoginActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+//        ActivityUtils.startActivity(intent);
     }
 }

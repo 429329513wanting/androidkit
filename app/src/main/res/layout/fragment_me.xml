@@ -5,22 +5,7 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.sendinfo.androidkit.widget.MyTopNavBar
-        android:layout_width="match_parent"
-        app:is_show_back="false"
-        android:id="@+id/my_top_bar"
-        app:title="个人中心"
-        android:layout_height="wrap_content">
 
-    </com.sendinfo.androidkit.widget.MyTopNavBar>
-
-    <TextView
-        android:id="@+id/me_tv"
-        android:textSize="@dimen/sp_16"
-        android:text="me"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/logout_btn"
