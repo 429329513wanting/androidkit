@@ -19,10 +19,10 @@ public interface IView {
 
     void showToast(String msg);
     void showProgressDialog();
-    void showDialog(int type, String title, String content);
+    void showSweetDialog(int type, String title, String content);
     void dismissDialog();
     void dismissDialogForRequest();
-    void showDialog(int type,
+    void showSweetDialog(int type,
                     String title,
                     String content, String confirmText, String cancelText, SweetAlertDialog.OnSweetClickListener confirmListener,
                     SweetAlertDialog.OnSweetClickListener cancelListener);

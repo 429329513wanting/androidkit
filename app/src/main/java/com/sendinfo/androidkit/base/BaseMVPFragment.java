@@ -163,9 +163,9 @@ public abstract class BaseMVPFragment<T extends IPresenter>
     }
 
 
-    @Override public void showDialog(int type, String title, String content)
+    @Override public void showSweetDialog(int type, String title, String content)
     {
-        showDialog(type, title, content, "确定", null, new SweetAlertDialog.OnSweetClickListener()
+        showSweetDialog(type, title, content, "确定", null, new SweetAlertDialog.OnSweetClickListener()
         {
             @Override public void onClick(SweetAlertDialog sweetAlertDialog)
             {
@@ -175,7 +175,7 @@ public abstract class BaseMVPFragment<T extends IPresenter>
     }
 
     @Override
-    public void showDialog(int type, String title, String content, String confirmText, String cancelText, SweetAlertDialog.OnSweetClickListener confirmListener, SweetAlertDialog.OnSweetClickListener cancelListener)
+    public void showSweetDialog(int type, String title, String content, String confirmText, String cancelText, SweetAlertDialog.OnSweetClickListener confirmListener, SweetAlertDialog.OnSweetClickListener cancelListener)
     {
         if(mSweetAlertDialog != null && mSweetAlertDialog.isShowing())
         {

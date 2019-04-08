@@ -37,13 +37,13 @@ public class LoginPresenter extends IPresenterImpl<LoginContract.View, BaseRespo
 
         }catch (Exception e){
 
-            mView.showDialog(SweetAlertDialog.WARNING_TYPE,"提示","解析异常");
+            mView.showSweetDialog(SweetAlertDialog.WARNING_TYPE,"提示","解析异常");
             return;
 
         }
         if (!response.getCode().equals("200")){
 
-            mView.showDialog(SweetAlertDialog.WARNING_TYPE,"提示",response.getMsg());
+            mView.showSweetDialog(SweetAlertDialog.WARNING_TYPE,"提示",response.getMsg());
             return;
         }
 

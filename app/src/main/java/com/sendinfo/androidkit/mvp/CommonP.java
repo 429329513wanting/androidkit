@@ -32,7 +32,7 @@ public class CommonP extends IPresenterImpl<ICommonView ,BaseResponse> implement
 
         }catch (Exception e){
 
-            mView.showDialog(SweetAlertDialog.ERROR_TYPE,"提示","解析异常");
+            mView.showSweetDialog(SweetAlertDialog.ERROR_TYPE,"提示","解析异常");
             e.printStackTrace();
         }
 

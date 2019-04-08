@@ -152,7 +152,7 @@ public class MainActivity extends BaseMVPActivity<CommonP> implements ICommonVie
 
         } else {
 
-            showDialog(SweetAlertDialog.WARNING_TYPE,
+            showSweetDialog(SweetAlertDialog.WARNING_TYPE,
                     "提示",
                     "确定退出?",
                     "确定",

@@ -75,7 +75,7 @@ public class IPresenterImpl<T extends IView,V> implements IPresenter,
 
         if (isViewExist()){
 
-            mView.showDialog(SweetAlertDialog.ERROR_TYPE,"提示",msg);
+            mView.showSweetDialog(SweetAlertDialog.ERROR_TYPE,"提示",msg);
 
             mView.dismissDialogForRequest();
 
