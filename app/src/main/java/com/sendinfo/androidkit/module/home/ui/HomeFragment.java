@@ -79,6 +79,7 @@ public class HomeFragment extends BaseMVPFragment<CommonP> implements ICommonVie
         adapter = new TestAdapter(R.layout.cell_item_layout,datas);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+        //adapter.bindToRecyclerView(recyclerView);
 
         refreshLayout.setRefreshHeader(new LottiRefreshHeader(getContext()));
         refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));

@@ -44,6 +44,8 @@ public class MyApplication extends Application {
     protected void attachBaseContext(Context base) {
 
         super.attachBaseContext(base);
+        MultiDex.install(this);
+
     }
 
     @Override
@@ -53,7 +55,6 @@ public class MyApplication extends Application {
         activityLinkedList = new LinkedList<>();
         instance = this;
         context = getApplicationContext();
-        MultiDex.install(this);
 
         SPUtils.getInstance().put(Constraint.BUSINESS_IP,"60.191.224.157");
         SPUtils.getInstance().put(Constraint.BUSINESS_PORT,"8750");

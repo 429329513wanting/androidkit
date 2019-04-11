@@ -25,7 +25,7 @@ import butterknife.BindView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
-public class MainActivity extends BaseMVPActivity<CommonP> implements ICommonView {
+public class MainActivity extends BaseMVPActivity {
 
     @BindView(R.id.bottom_rg)
     RadioGroup radioGroup;
@@ -40,24 +40,20 @@ public class MainActivity extends BaseMVPActivity<CommonP> implements ICommonVie
     @Override
     protected void initView() {
 
-        //myTopNavBar.setVisibility(View.GONE);
         fragmentManager = getSupportFragmentManager();
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
 
-                Class<? extends Fragment> clz = null;
-                if (checkedId == R.id.home_rg){
+            Class<? extends Fragment> clz = null;
+            if (checkedId == R.id.home_rg){
 
-                    clz = HomeFragment.class;
+                clz = HomeFragment.class;
 
-                }else if (checkedId == R.id.me_rg){
+            }else if (checkedId == R.id.me_rg){
 
-                    clz = MeFragment.class;
-                }
-
-                showOrHideFragment(R.id.container,clz);
+                clz = MeFragment.class;
             }
+
+            showOrHideFragment(R.id.container,clz);
         });
 
         radioGroup.check(R.id.home_rg);
@@ -73,14 +69,6 @@ public class MainActivity extends BaseMVPActivity<CommonP> implements ICommonVie
     protected int getLayoutId() {
         return R.layout.activity_main;
     }
-
-
-
-    @Override
-    public void Success(BaseResponse response) {
-
-    }
-
 
 
     private void showOrHideFragment(int contentId, Class<?extends Fragment> clz) {
