@@ -3,7 +3,7 @@ package com.sendinfo.androidkit.util;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 
 import com.blankj.utilcode.util.ConvertUtils;
 

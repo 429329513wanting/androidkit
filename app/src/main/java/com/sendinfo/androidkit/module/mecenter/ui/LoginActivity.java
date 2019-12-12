@@ -1,8 +1,8 @@
 package com.sendinfo.androidkit.module.mecenter.ui;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 
 import com.blankj.utilcode.util.ActivityUtils;
@@ -11,7 +11,6 @@ import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.sendinfo.androidkit.R;
 import com.sendinfo.androidkit.base.BaseMVPActivity;
-import com.sendinfo.androidkit.base.BaseMVPFragment;
 import com.sendinfo.androidkit.bean.LoginVo;
 import com.sendinfo.androidkit.module.MainActivity;
 import com.sendinfo.androidkit.module.mecenter.contract.LoginContract;
@@ -52,8 +51,8 @@ public class LoginActivity extends BaseMVPActivity<LoginContract.Presenter>
 
         HttpDto httpDto = new HttpDto(Constraint.LOGIN);
         BaseModel baseModel = new BaseModel();
-        baseModel.username = "15257958840";
-        baseModel.checkCode = "123456";
+        baseModel.username = "13867551710";
+        baseModel.password = EncryptUtils.encryptMD5ToString("123456").toLowerCase();
         httpDto.setBaseModel(baseModel);
         mPresenter.getData(httpDto);
 

@@ -2,30 +2,25 @@ package com.sendinfo.androidkit.module.home.ui;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.sendinfo.androidkit.R;
 import com.sendinfo.androidkit.base.BaseMVPFragment;
 import com.sendinfo.androidkit.bean.LoginVo;
 import com.sendinfo.androidkit.module.home.adapter.TestAdapter;
-import com.sendinfo.androidkit.mvp.BaseModel;
 import com.sendinfo.androidkit.mvp.BaseResponse;
 import com.sendinfo.androidkit.mvp.CommonP;
-import com.sendinfo.androidkit.mvp.HttpDto;
 import com.sendinfo.androidkit.mvp.ICommonView;
-import com.sendinfo.androidkit.util.Constraint;
 import com.sendinfo.androidkit.widget.refreshHeader.LottiRefreshHeader;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;

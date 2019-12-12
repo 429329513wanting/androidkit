@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.multidex.MultiDex;
+import androidx.multidex.MultiDex;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -56,8 +56,8 @@ public class MyApplication extends Application {
         instance = this;
         context = getApplicationContext();
 
-        SPUtils.getInstance().put(Constraint.BUSINESS_IP,"60.191.224.157");
-        SPUtils.getInstance().put(Constraint.BUSINESS_PORT,"8750");
+        SPUtils.getInstance().put(Constraint.BUSINESS_IP,Constraint.SERVER_IP);
+        SPUtils.getInstance().put(Constraint.BUSINESS_PORT,Constraint.SERVER_PORT);
 
         initHttp();
 

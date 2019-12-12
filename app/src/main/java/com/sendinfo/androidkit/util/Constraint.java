@@ -23,9 +23,13 @@ public class Constraint {
     public static final String FACE_SERVER = "https://###/";
     public static final String SERVER = "http://@@@/";
 
+    public static final String SERVER_IP = "220.191.224.192";
+    public static final String SERVER_PORT = "8085";
+
+
 
     //登录
-    public static final String LOGIN = SERVER+"api/user/loginByMobile.htm";
+    public static final String LOGIN = SERVER+"api/user/login.htm";
 
 
 

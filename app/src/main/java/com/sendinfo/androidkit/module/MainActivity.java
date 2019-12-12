@@ -1,24 +1,18 @@
 package com.sendinfo.androidkit.module;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.view.KeyEvent;
 
-import android.view.View;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.sendinfo.androidkit.R;
 import com.sendinfo.androidkit.base.BaseMVPActivity;
 import com.sendinfo.androidkit.base.MyApplication;
 import com.sendinfo.androidkit.module.home.ui.HomeFragment;
 import com.sendinfo.androidkit.module.mecenter.ui.MeFragment;
-import com.sendinfo.androidkit.mvp.BaseResponse;
-import com.sendinfo.androidkit.mvp.CommonP;
-import com.sendinfo.androidkit.mvp.ICommonView;
 
 
 import butterknife.BindView;

@@ -1,8 +1,8 @@
 package com.sendinfo.androidkit.module.other.ui;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 
 import com.blankj.utilcode.util.ActivityUtils;
@@ -14,7 +14,6 @@ import com.sendinfo.androidkit.module.mecenter.ui.LoginActivity;
 import com.sendinfo.androidkit.util.Constraint;
 import com.sendinfo.androidkit.widget.welcomPage.PageFrameLayout;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 

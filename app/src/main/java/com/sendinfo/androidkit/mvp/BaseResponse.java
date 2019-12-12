@@ -17,6 +17,11 @@ public class BaseResponse implements Serializable{
     private Object result;
     private String msg;
     private String code;
+    public  boolean success;
+    public  Object user;
+    public  String token;
+
+
 
     public Object getResult() {
         return result;
