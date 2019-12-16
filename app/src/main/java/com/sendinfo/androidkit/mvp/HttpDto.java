@@ -65,7 +65,8 @@ public class HttpDto {
         this.url = url.replaceAll("###",faceDoman)
                 .replaceAll("@@@",
                         SPUtils.getInstance().getString(Constraint.BUSINESS_IP)
-                                +":"+SPUtils.getInstance().getString(Constraint.BUSINESS_PORT));
+                                +":"+SPUtils.getInstance().getString(Constraint.BUSINESS_PORT))
+                .replace("!!!",Constraint.SERVER_TWO_IP);
 
         headers = new HashMap<>();
         this.silence = silence;

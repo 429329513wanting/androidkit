@@ -13,6 +13,7 @@ import com.sendinfo.androidkit.base.BaseMVPActivity;
 import com.sendinfo.androidkit.base.MyApplication;
 import com.sendinfo.androidkit.module.home.ui.HomeFragment;
 import com.sendinfo.androidkit.module.mecenter.ui.MeFragment;
+import com.sendinfo.androidkit.demo.DemoComStringFragment;
 
 
 import butterknife.BindView;
@@ -45,6 +46,9 @@ public class MainActivity extends BaseMVPActivity {
             }else if (checkedId == R.id.me_rg){
 
                 clz = MeFragment.class;
+            }else if (checkedId == R.id.order_rg){
+
+                clz = DemoComStringFragment.class;
             }
 
             showOrHideFragment(R.id.container,clz);

@@ -1,6 +1,7 @@
 package com.sendinfo.androidkit.module.mecenter.presenter;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.j256.ormlite.logger.Log;
 import com.sendinfo.androidkit.bean.LoginVo;
 import com.sendinfo.androidkit.module.mecenter.contract.LoginContract;
@@ -9,6 +10,7 @@ import com.sendinfo.androidkit.mvp.BaseResponse;
 import com.sendinfo.androidkit.mvp.HttpDto;
 import com.sendinfo.androidkit.mvp.IPresenterImpl;
 import com.sendinfo.androidkit.mvp.IView;
+import com.sendinfo.androidkit.util.Constraint;
 import com.sendinfo.androidkit.util.JsonUtil.JsonUtil;
 
 import org.json.JSONArray;
@@ -61,6 +63,9 @@ public class LoginPresenter extends IPresenterImpl<LoginContract.View, BaseRespo
             LogUtils.d(jsarr.get(0));
             JSONObject operator = jsonob.getJSONObject("operator");
             LogUtils.d(operator.getString("realName"));
+
+            JSONObject root = new JSONObject(JsonUtil.getJsonString(response));
+            SPUtils.getInstance().put(Constraint.TOKEN,root.getString("token"));
 
 
         }catch (JSONException e){

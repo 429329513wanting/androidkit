@@ -1,4 +1,4 @@
-package com.sendinfo.klyard;
+package com.sendinfo.androidkit;
 
 import org.junit.Test;
 

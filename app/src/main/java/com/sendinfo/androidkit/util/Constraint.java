@@ -11,25 +11,24 @@ package com.sendinfo.androidkit.util;
 
 public class Constraint {
 
-
-    public static final String AibeeUrl = "sendinfo.aibee.cn";
-
-    public static final String SdkKey = "2da06b0849e84fb2";
-    public static final String SdkSecret = "ZXYHp7GKanN7YY6kfj7jT9bLyZWf4Yxa";
-
-    public static final String ApiKey = "3htkHXEu9MfcMb2JsQLlIxGDLKyZyaV8";
-    public static final String ApiSecret = "JvfD4SIzL7nm9od9fmosLkVakUoq1tqd";
-
-    public static final String FACE_SERVER = "https://###/";
     public static final String SERVER = "http://@@@/";
+    public static final String SERVER_TWO = "http://!!!/";
 
     public static final String SERVER_IP = "220.191.224.192";
     public static final String SERVER_PORT = "8085";
 
+    public static final String SERVER_TWO_IP = "dataproject.sendinfo.com.cn";
+
+
+    //总控图片
+    public static final String IMGS = SERVER_TWO+"api/projectManage/getImageUrls";
 
 
     //登录
     public static final String LOGIN = SERVER+"api/user/login.htm";
+    //项目接口上传
+    public static final String UPLOAD_EVENT = SERVER+"api/event/commit.htm";
+
 
 
 
@@ -43,6 +42,8 @@ public class Constraint {
 
     public static final String IGNORE_WELCOM = "ignore_welcom";
     public static final String IS_LOGIN = "is_login";
+    public static final String TOKEN = "token";
+
 
 
 

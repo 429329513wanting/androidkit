@@ -14,4 +14,7 @@ public class BaseModel {
     public String username = null;
     public String password = null;
     public String checkCode = null;
+    public String imageType = null;
+    public String projectCode = null;
+
 }
