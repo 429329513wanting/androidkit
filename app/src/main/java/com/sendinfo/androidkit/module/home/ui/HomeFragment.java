@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -110,5 +111,19 @@ public class HomeFragment extends BaseMVPFragment<CommonP> implements ICommonVie
     public void Success(BaseResponse response) {
 
 
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+
+        if (hidden){
+
+            LogUtils.d("fragment hided");
+        }else {
+
+            LogUtils.d("fragment showed");
+
+        }
+        super.onHiddenChanged(hidden);
     }
 }

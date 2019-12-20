@@ -104,6 +104,7 @@ public class MainActivity extends BaseMVPActivity {
 
             }
 
+            //显示
             transaction.commit();
 
         }catch (InstantiationException e){
