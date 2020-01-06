@@ -27,7 +27,7 @@ public class MyTopNavBar extends RelativeLayout {
     private boolean isShowBack;
     private int backgroundColor;
     private TextView navTitleTV;
-    private ImageView rightImgV;
+    private Button rightImgV;
     private String navTitle;
     private int rigtIcon;
 
@@ -67,7 +67,7 @@ public class MyTopNavBar extends RelativeLayout {
         navTitleTV = findViewById(R.id.nav_title_tv);
         navTitleTV.setText(navTitle);
         rightImgV = findViewById(R.id.right_icon);
-        rightImgV.setImageResource(rigtIcon);
+        rightImgV.setBackgroundResource(rigtIcon);
 
         setBackgroundColor(backgroundColor);
 
@@ -104,7 +104,13 @@ public class MyTopNavBar extends RelativeLayout {
     public void setRightIcon(int icon){
 
 
-        rightImgV.setImageResource(icon);
+        rightImgV.setBackgroundResource(icon);
 
     }
+    public void hideBackBtn(){
+
+        backBtn.setVisibility(INVISIBLE);
+
+    }
+
 }

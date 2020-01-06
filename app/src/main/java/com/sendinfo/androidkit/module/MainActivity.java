@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 
 import android.widget.RadioGroup;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.sendinfo.androidkit.R;
 import com.sendinfo.androidkit.base.BaseMVPActivity;
 import com.sendinfo.androidkit.base.MyApplication;
@@ -35,6 +36,8 @@ public class MainActivity extends BaseMVPActivity {
     @Override
     protected void initView() {
 
+        myTopNavBar.setTitle("首页");
+        myTopNavBar.hideBackBtn();
         fragmentManager = getSupportFragmentManager();
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
 
@@ -42,13 +45,19 @@ public class MainActivity extends BaseMVPActivity {
             if (checkedId == R.id.home_rg){
 
                 clz = HomeFragment.class;
+                myTopNavBar.setTitle("首页");
+
 
             }else if (checkedId == R.id.me_rg){
 
                 clz = MeFragment.class;
+                myTopNavBar.setTitle("我的");
+
             }else if (checkedId == R.id.order_rg){
 
                 clz = DemoComStringFragment.class;
+                myTopNavBar.setTitle("订单");
+
             }
 
             showOrHideFragment(R.id.container,clz);
@@ -70,6 +79,7 @@ public class MainActivity extends BaseMVPActivity {
 
 
     private void showOrHideFragment(int contentId, Class<?extends Fragment> clz) {
+
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (mCurrentFragment != null &&
@@ -103,6 +113,7 @@ public class MainActivity extends BaseMVPActivity {
                 mCurrentFragment = fragment;
 
             }
+
 
             //显示
             transaction.commit();

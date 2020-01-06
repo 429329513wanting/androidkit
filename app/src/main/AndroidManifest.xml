@@ -63,8 +63,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:theme,android:allowBackup">
-
-        <activity android:name=".module.other.ui.SplashActivity"
+        <activity android:name=".demo.WebViewActivity"></activity>
+        <activity
+            android:name=".module.other.ui.SplashActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -73,8 +74,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".module.mecenter.ui.LoginActivity" />
-        <activity android:name=".module.other.ui.WelcomActivity">
-        </activity>
+        <activity android:name=".module.other.ui.WelcomActivity"></activity>
         <activity android:name=".module.MainActivity" />
     </application>
 

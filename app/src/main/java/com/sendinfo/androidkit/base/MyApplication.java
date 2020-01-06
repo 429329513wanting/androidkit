@@ -19,6 +19,7 @@ import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
 import com.sendinfo.androidkit.util.Constraint;
 import com.sendinfo.androidkit.widget.KLog.KLog;
+import com.ycbjie.webviewlib.X5WebUtils;
 
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
@@ -60,6 +61,8 @@ public class MyApplication extends Application {
         SPUtils.getInstance().put(Constraint.BUSINESS_PORT,Constraint.SERVER_PORT);
 
         initHttp();
+
+        X5WebUtils.init(this);
 
 
 

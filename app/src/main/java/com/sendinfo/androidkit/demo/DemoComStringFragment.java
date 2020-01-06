@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.sendinfo.androidkit.R;
@@ -62,7 +63,7 @@ public class DemoComStringFragment extends BaseMVPFragment<CommonStringP> implem
 
     }
     @RequiresApi(api = Build.VERSION_CODES.M)
-    @OnClick({R.id.upload_tv,R.id.handle_thread_tv,R.id.accept_tv})
+    @OnClick({R.id.upload_tv,R.id.handle_thread_tv,R.id.accept_tv,R.id.webview_tv})
     public void viewClick(View view){
 
         if (view.getId() == R.id.upload_tv){
@@ -148,6 +149,9 @@ public class DemoComStringFragment extends BaseMVPFragment<CommonStringP> implem
 
             }
 
+        }else if(view.getId() == R.id.webview_tv){
+
+            ActivityUtils.startActivity(WebViewActivity.class);
         }
 
 

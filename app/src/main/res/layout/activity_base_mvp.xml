@@ -8,7 +8,7 @@
 
     <com.sendinfo.androidkit.widget.MyTopNavBar
         android:layout_width="match_parent"
-        app:is_show_back="false"
+        app:is_show_back="true"
         android:id="@+id/my_top_bar"
         android:layout_height="wrap_content">
 

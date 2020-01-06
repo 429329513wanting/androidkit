@@ -135,6 +135,7 @@ public class BackgroundExeUtil {
         //操作步骤：自动运行应用程序 -> 打开应用开关 -> 电池管理 -> 未监视的应用程序 -> 添加应用
     }
     public static boolean isLeTV() {
+
         return Build.BRAND != null && Build.BRAND.toLowerCase().equals("letv");
     }
 
@@ -150,4 +151,5 @@ public class BackgroundExeUtil {
         showActivity(context,"com.smartisanos.security");
         //操作步骤：权限管理 -> 自启动权限管理 -> 点击应用 -> 允许被系统启动
     }
+
 }
