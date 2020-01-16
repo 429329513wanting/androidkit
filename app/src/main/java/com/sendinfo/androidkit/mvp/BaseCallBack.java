@@ -54,5 +54,8 @@ public class BaseCallBack extends AbsCallback<String> {
     public String convertResponse(okhttp3.Response response) throws Throwable {
 
         return response.body().string();
+        //在这里如果正常返回就会走onSuccess，在这里抛出异常就会回调onError包括解析错误
+
+        //throw new IllegalStateException("SSSS");
     }
 }

@@ -27,6 +27,13 @@ import com.sendinfo.androidkit.util.JsonUtil.JsonUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Time;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -34,12 +41,90 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class DemoComStringFragment extends BaseMVPFragment<CommonStringP> implements ICommonStringView {
 
+    public  Handler mHandler;
+
+
     @BindView(R.id.upload_tv)
     TextView upload_tv;
 
     @Override
     protected void initArgs(Bundle bundle) {
 
+        learnThreadPoor();
+    }
+
+    private void learnThreadPoor() {
+
+        //缓存线程池，不超出用空闲的，超处工作范围就新建线程
+        ExecutorService cachePoor = Executors.newCachedThreadPool();
+        for (int i=0;i<10;i++){
+
+            final  int index = i;
+
+            try {
+
+                Thread.sleep(index*1000);
+
+
+            }catch (InterruptedException e){
+
+                e.printStackTrace();
+            }
+
+            cachePoor.execute(new Runnable() {
+                @Override
+                public void run() {
+
+                    LogUtils.d(index+"");
+                    LogUtils.d(Thread.currentThread().getId());
+
+                }
+            });
+        }
+        //定长线程池,超出工作任务,放到队列里
+        ExecutorService fixPoor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        for (int n =0;n < 10;n++){
+            final int sn = n;
+            fixPoor.execute(new Runnable() {
+                @Override
+                public void run() {
+
+                    try {
+                        LogUtils.d("fixpoor"+sn);
+                        Thread.sleep(2000);
+
+                    }catch (InterruptedException e){
+
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+        }
+
+
+        //周期性线程池
+        //延迟3秒
+        ScheduledExecutorService sche = Executors.newScheduledThreadPool(5);
+        sche.schedule(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        },3000, TimeUnit.SECONDS);
+
+        ScheduledExecutorService recycSche = Executors.newScheduledThreadPool(5);
+        recycSche.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+
+                LogUtils.d("recycSche");
+            }
+        },0,1, TimeUnit.SECONDS);
+
+
+
+        //单线程池
     }
 
     @Override
@@ -117,10 +202,42 @@ public class DemoComStringFragment extends BaseMVPFragment<CommonStringP> implem
 
                 }
             });
+            //handler,处理和发送消息
+            // looper,分发消息
+            // messagequeue 接收handler发送过来的的
+            //如果子线程要用handler,需要手动创建looper
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    Looper.prepare();
+
+                    mHandler = new Handler(){
+                        @Override
+                        public void handleMessage(Message msg) {
+
+
+                            LogUtils.d(Looper.myLooper());
+                            LogUtils.d(msg.what+"");
+                            super.handleMessage(msg);
+                        }
+                    };
+
+                    Looper.loop();
+
+                    //quit，终止循环
+
+                }
+            }).start();
+
+
 
 
 
         }else if(view.getId() == R.id.accept_tv){
+
+            mHandler.sendEmptyMessage(2);
 
             if (!BackgroundExeUtil.isIgnoringBatteryOptimizations(getActivity())){
 
