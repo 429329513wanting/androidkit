@@ -9,6 +9,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.example.uplibrary.UpMainActivity;
 import com.sendinfo.androidkit.R;
 import com.sendinfo.androidkit.module.MainActivity;
 import com.sendinfo.androidkit.module.mecenter.ui.LoginActivity;
@@ -44,7 +45,7 @@ public class SplashActivity extends Activity {
 
                     }else {
 
-                        ActivityUtils.startActivity(MainActivity.class);
+                        ActivityUtils.startActivity(UpMainActivity.class);
                     }
                 }
                 finish();

@@ -119,6 +119,7 @@ public class HomeFragment extends BaseMVPFragment<CommonP> implements ICommonVie
         if (hidden){
 
             LogUtils.d("fragment hided");
+
         }else {
 
             LogUtils.d("fragment showed");

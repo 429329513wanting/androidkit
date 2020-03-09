@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TicketListActivity">
+
+    <FrameLayout
+        android:id="@+id/top_nav"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:background="#000"
+        android:layout_height="55dp">
+
+        <TextView
+            android:id="@+id/back_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="15dp"
+
+            android:background="@drawable/back">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:text="交易人脸列表">
+        </TextView>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/query_ll"
+        android:padding="10dp"
+        android:layout_below="@+id/top_nav"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+
+        <org.angmarch.views.NiceSpinner
+            android:id="@+id/nice_spiner"
+            android:background="@drawable/border"
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:layout_height="40dp">
+
+        </org.angmarch.views.NiceSpinner>
+
+        <com.cretin.www.clearedittext.view.ClearEditText
+            android:id="@+id/phone_et"
+            android:hint="请输入手机号"
+            android:textSize="16sp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:textColor="#000"
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp">
+
+        </com.cretin.www.clearedittext.view.ClearEditText>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="5dp"
+        android:paddingLeft="@dimen/dp_10"
+        android:layout_above="@+id/next_btn"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_below="@+id/query_ll"
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/next_btn"
+        android:layout_width="match_parent"
+        android:text="下一步"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:layout_margin="@dimen/dp_10"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/next_btn"
+        android:layout_height="45dp"/>
+
+
+
+
+</RelativeLayout>
