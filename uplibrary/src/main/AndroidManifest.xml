@@ -3,7 +3,8 @@
     package="com.example.uplibrary">
 
     <application>
-        <activity android:name=".TicketListActivity"></activity>
+        <activity android:name=".RecoardFaceActivity"></activity>
+        <activity android:name=".TicketListActivity" />
         <activity android:name=".UpMainActivity" />
     </application>
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:id="@+id/bg_ll"
+    android:orientation="vertical"
+    android:layout_margin="15dp"
+    android:background="@drawable/border"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/photo"
+        android:background="#ccc"
+        android:layout_width="105dp"
+        android:layout_height="105dp"/>
+
+
+    <TextView
+        android:id="@+id/check_tv"
+        android:layout_width="match_parent"
+        android:text="录入"
+        android:background="@color/my_blue"
+        android:textColor="#fff"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_height="wrap_content"/>
+
+
+
+
+</LinearLayout>

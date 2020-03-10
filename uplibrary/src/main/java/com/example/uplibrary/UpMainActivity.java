@@ -7,7 +7,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
+import com.example.uplibrary.http.HttpAPI;
+import com.example.uplibrary.http.HttpGetUtil;
+import com.example.uplibrary.http.ResultCallBack;
+import com.example.uplibrary.http.UICallBack;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UpMainActivity extends AppCompatActivity {
 
@@ -20,6 +29,7 @@ public class UpMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_up_main);
 
         Utils.init(this);
+        LogUtils.d("UpMainActivity");
 
         oneBtn = findViewById(R.id.up_one_btn);
         twoBtn = findViewById(R.id.up_two_btn);
@@ -64,6 +74,24 @@ public class UpMainActivity extends AppCompatActivity {
             intent.putExtra(Constraint.UP_TYPE,"2");
 
         }else {
+
+
+            Map<String,String> params = new HashMap<>();
+            params.put("username","sx_bgs");
+            params.put("password","e10adc3949ba59abbe56e057f20f883e");
+
+            HttpAPI.login(params, this, new UICallBack() {
+                @Override
+                public void result(Object result) {
+
+                    ToastUtils.showLong(result.toString());
+                }
+
+                @Override
+                public void fail(String msg) {
+
+                }
+            });
 
             intent.putExtra(Constraint.UP_TYPE,"0");
         }
