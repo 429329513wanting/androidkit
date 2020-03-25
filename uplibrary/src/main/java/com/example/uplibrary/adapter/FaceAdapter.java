@@ -3,7 +3,6 @@ package com.example.uplibrary.adapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.uplibrary.R;
-import com.example.uplibrary.bean.FaceTicketVo;
 import com.example.uplibrary.bean.FaceVo;
 
 import java.util.List;

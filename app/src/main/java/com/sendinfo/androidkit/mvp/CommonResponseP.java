@@ -1,6 +1,5 @@
 package com.sendinfo.androidkit.mvp;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.sendinfo.androidkit.util.JsonUtil.JsonUtil;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -15,8 +14,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * </pre>
  */
 
-public class CommonP extends IPresenterImpl<ICommonView ,BaseResponse> implements IPresenter{
-    public CommonP(ICommonView view) {
+public class CommonResponseP extends IPresenterImpl<ICommonResponseView,BaseResponse> implements IPresenter{
+    public CommonResponseP(ICommonResponseView view) {
         super(view);
     }
 
@@ -40,6 +39,12 @@ public class CommonP extends IPresenterImpl<ICommonView ,BaseResponse> implement
 
             mView.Success(baseResponse);
         }
+
+    }
+
+    @Override
+    public void requestFail(String msg, HttpDto httpDto) {
+        super.requestFail(msg, httpDto);
 
     }
 }

@@ -2,11 +2,14 @@ package com.example.uplibrary;
 
 public class Constraint {
 
-    public static String BASE_URL = "http://192.168.66.229:9901";
-    //public static String BASE_URL = "http://220.191.224.192:8085";
+    //public static String BASE_URL = "http://192.168.66.229:9901";
+    public static String BASE_URL = "http://220.191.224.192:8085";
 
     //签到列表
     public static String SIGNLIST = BASE_URL+"/api/app/getOndutySignByUser.htm";
+    //签到
+    public static String SIGN = BASE_URL+"/api/app/ondutySignIn";
+
     //登录
     public static String LOGIN = BASE_URL+"/api/user/login.htm";
 

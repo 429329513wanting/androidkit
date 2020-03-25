@@ -8,6 +8,7 @@ import android.view.View;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.EncryptUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.example.uplibrary.UpMainActivity;
 import com.gyf.barlibrary.ImmersionBar;
 import com.sendinfo.androidkit.R;
 import com.sendinfo.androidkit.base.BaseMVPActivity;
@@ -68,7 +69,7 @@ public class LoginActivity extends BaseMVPActivity<LoginContract.Presenter>
 
         ImmersionBar.with(this).statusBarDarkFont(false).init();
         SPUtils.getInstance().put(Constraint.IS_LOGIN,"1");
-        ActivityUtils.startActivity(MainActivity.class);
+        ActivityUtils.startActivity(UpMainActivity.class);
         finish();
     }
 }

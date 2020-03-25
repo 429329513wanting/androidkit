@@ -33,6 +33,4 @@ public class AppInfoVo implements Serializable {
         this.now = now;
     }
 
-
-
 }

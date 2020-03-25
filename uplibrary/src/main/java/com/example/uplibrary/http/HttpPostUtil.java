@@ -1,10 +1,14 @@
 package com.example.uplibrary.http;
 
 import android.app.Activity;
+import android.app.Application;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.google.gson.Gson;
@@ -12,6 +16,8 @@ import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -22,7 +28,7 @@ import java.util.UUID;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class HttpUtil extends Thread {
+public class HttpPostUtil extends Thread {
 
     private String url;
     private Map<String,String>formMap;
@@ -39,43 +45,46 @@ public class HttpUtil extends Thread {
 
     private SweetAlertDialog processDialog = null;
 
-
-    public HttpUtil(String url, Map<String,String>params,Activity activity,ResultCallBack callBack){
-
-        this.url = url;
-        this.formMap = params;
-        this.callBack = callBack;
-        this.activity = activity;
-    }
+    private final static int responseSuccess = 0x00;
+    private final static int responseFail = 0x01;
+    private final static int showProcess = 0x02;
 
 
-    public HttpUtil(String url, Map<String,String>params,Activity activity,boolean needSign,ResultCallBack callBack){
+    private Handler handler = new Handler(){
 
-        this.url = url;
-        this.formMap = params;
-        this.callBack = callBack;
-        this.activity = activity;
-        this.needSign = needSign;
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
 
-    }
+            if (msg.what == responseSuccess){
 
-    @Override
-    public void run() {
-        super.run();
-        Log.d("http","开始发请求");
+                if (processDialog != null){
 
-        if (needSign){
+                    processDialog.dismiss();
+                }
+                String response = String.valueOf(msg.obj);
 
-            this.formMap.put("requestId", UUID.randomUUID().toString());
-            this.formMap.put("appId","111111");
-            this.formMap.put("version","1.0");
-            this.formMap.put("timestampt",System.currentTimeMillis()+"");
-            this.formMap.put("sign",buildServerSign(this.formMap,"SECRET"));
-        }
+                if (response != null && response.isEmpty() == false){
 
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+                    callBack.onSuccess(response);
+
+                }else {
+
+                    ToastUtils.showLong("服务器返回空");
+                }
+
+
+            }else if(msg.what == responseFail){
+
+                if (processDialog != null){
+
+                    processDialog.dismiss();
+                }
+                ToastUtils.showLong(String.valueOf(msg.obj));
+                callBack.onFail(String.valueOf(msg.obj));
+
+
+            }else if(msg.what == showProcess){
 
                 if (processDialog == null){
 
@@ -85,12 +94,51 @@ public class HttpUtil extends Thread {
                     processDialog.show();
 
                 }
+
             }
-        });
+
+        }
+    };
 
 
+    public HttpPostUtil(String url, Map<String,String>params, Activity activity, ResultCallBack callBack){
 
-        Log.d("http","请求url:"+this.url+"\n"+"请求参数"+"\n"+jsonDataConnect(formMap));
+        this.url = url;
+        this.formMap = params;
+        this.callBack = callBack;
+        this.activity = activity;
+        Utils.init(activity);
+    }
+
+
+    public HttpPostUtil(String url, Map<String,String>params, Activity activity, boolean needSign, ResultCallBack callBack){
+
+        this.url = url;
+        this.formMap = params;
+        this.callBack = callBack;
+        this.activity = activity;
+        this.needSign = needSign;
+        Utils.init(activity);
+
+
+    }
+
+    @Override
+    public void run() {
+        super.run();
+
+        //需要签名机制
+        if (needSign){
+
+            this.formMap.put("requestId", UUID.randomUUID().toString());
+            this.formMap.put("appId","111111");
+            this.formMap.put("version","1.0");
+            this.formMap.put("timestampt",System.currentTimeMillis()+"");
+            this.formMap.put("sign",buildServerSign(this.formMap,"SECRET"));
+        }
+        handler.sendEmptyMessage(showProcess);
+
+        LogUtils.d("请求url:"+this.url+"\n"+"请求参数"+"\n"+jsonDataConnect(formMap));
 
 
 
@@ -98,7 +146,7 @@ public class HttpUtil extends Thread {
 
             if (this.url.equals("") || url == null){
 
-                Log.d("http","url为空");
+                LogUtils.d("url为空");
 
                 return;
 
@@ -129,8 +177,13 @@ public class HttpUtil extends Thread {
             }
             if (connection.getResponseCode() != 200){
 
-                Log.d("http","response"+"\n"+connection.getResponseCode());
+                LogUtils.d("responseCode"+"\n"+connection.getResponseCode()+connection.getResponseMessage());
                 ToastUtils.showLong(connection.getResponseCode()+"===="+connection.getResponseMessage());
+
+                Message message = new Message();
+                message.what = responseFail;
+                message.obj = connection.getResponseMessage();
+                handler.sendMessage(message);
 
                 return;
             }
@@ -142,28 +195,13 @@ public class HttpUtil extends Thread {
 
             }
             response = response_cache.toString().trim();
-            Log.d("http","response"+"\n"+response);
+            LogUtils.d("response"+"\n"+JsonTool.jsonPrintFormat(response));
 
 
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    if (processDialog != null){
-
-                        processDialog.dismiss();
-                    }
-
-                    if (response != null && response.isEmpty() == false){
-
-                        callBack.onSuccess(response);
-
-                    }else {
-
-                        ToastUtils.showLong("服务器返回空");
-                    }
-                }
-            });
+            Message message = new Message();
+            message.what = responseSuccess;
+            message.obj = message;
+            handler.sendMessage(message);
 
 
 
@@ -171,18 +209,10 @@ public class HttpUtil extends Thread {
 
 
             e.printStackTrace();
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    if (processDialog != null){
-
-                        processDialog.dismiss();
-                    }
-                    callBack.onFail(e.getLocalizedMessage());
-                    ToastUtils.showLong(e.getLocalizedMessage());
-                }
-            });
+            Message message = new Message();
+            message.what = responseFail;
+            message.obj = e.getLocalizedMessage();
+            handler.sendMessage(message);
 
         }finally {
 
@@ -201,23 +231,14 @@ public class HttpUtil extends Thread {
 
             }catch (Exception e){
 
-
-
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        if (processDialog != null){
-
-                            processDialog.dismiss();
-                        }
-
-                    }
-                });
-                Log.d("http","关闭流异常");
-
-
                 e.printStackTrace();
+                LogUtils.d("关闭流异常");
+                Message message = new Message();
+                message.what = responseFail;
+                message.obj = "关闭流异常";
+                handler.sendMessage(message);
+
+
             }
         }
 
@@ -297,5 +318,34 @@ public class HttpUtil extends Thread {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public Application getAppContext(){
+
+        Application application = null;
+        Class<?> activityThreadClass;
+        try {
+            activityThreadClass = Class.forName("android.app.ActivityThread");
+            final Method method2 = activityThreadClass.getMethod(
+                    "currentActivityThread", new Class[0]);
+            // 得到当前的ActivityThread对象
+            Object localObject = method2.invoke(null, (Object[]) null);
+
+            final Method method = activityThreadClass
+                    .getMethod("getApplication");
+            application = (Application) method.invoke(localObject, (Object[]) null);
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return application;
     }
 }

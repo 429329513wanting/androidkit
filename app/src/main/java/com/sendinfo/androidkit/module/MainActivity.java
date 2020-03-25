@@ -47,7 +47,6 @@ public class MainActivity extends BaseMVPActivity {
                 clz = HomeFragment.class;
                 myTopNavBar.setTitle("首页");
 
-
             }else if (checkedId == R.id.me_rg){
 
                 clz = MeFragment.class;
@@ -57,7 +56,6 @@ public class MainActivity extends BaseMVPActivity {
 
                 clz = DemoComStringFragment.class;
                 myTopNavBar.setTitle("订单");
-
             }
 
             showOrHideFragment(R.id.container,clz);

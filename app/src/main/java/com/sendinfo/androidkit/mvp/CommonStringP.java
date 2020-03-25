@@ -19,4 +19,10 @@ public class CommonStringP extends IPresenterImpl<ICommonStringView, String> imp
         super.requestSuccess(data, httpDto);
         mView.onSucess(data, httpDto);
     }
+
+    @Override
+    public void requestFail(String msg, HttpDto httpDto) {
+        super.requestFail(msg, httpDto);
+
+    }
 }

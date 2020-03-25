@@ -14,21 +14,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.uplibrary.adapter.TicketAdapter;
 import com.example.uplibrary.bean.AppInfoVo;
 import com.example.uplibrary.bean.FaceTicketVo;
 import com.example.uplibrary.http.HttpAPI;
-import com.example.uplibrary.http.HttpUtil;
 import com.example.uplibrary.http.JsonTool;
-import com.example.uplibrary.http.ResultCallBack;
 import com.example.uplibrary.http.UICallBack;
 
 import org.angmarch.views.NiceSpinner;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -166,7 +162,7 @@ public class TicketListActivity extends AppCompatActivity implements View.OnClic
 
         if (v.getId() == R.id.next_btn){
 
-            /*Map<String,String>bizParams = new HashMap<>();
+            Map<String,String> bizParams = new HashMap<>();
             bizParams.put("terminalCode","665742c3-47bc-4dee-a05e-263baafed815");
             bizParams.put("faceInfo","13867551710");
             bizParams.put("remark","");
@@ -209,7 +205,7 @@ public class TicketListActivity extends AppCompatActivity implements View.OnClic
                 public void fail(String msg) {
 
                 }
-            });*/
+            });
 
             if (upType.equals("0")){
 

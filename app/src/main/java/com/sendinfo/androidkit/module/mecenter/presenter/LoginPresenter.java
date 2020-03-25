@@ -77,4 +77,9 @@ public class LoginPresenter extends IPresenterImpl<LoginContract.View, BaseRespo
 
         mView.loginSuccess(loginVo);
     }
+
+    @Override
+    public void requestFail(String msg, HttpDto httpDto) {
+        super.requestFail(msg, httpDto);
+    }
 }

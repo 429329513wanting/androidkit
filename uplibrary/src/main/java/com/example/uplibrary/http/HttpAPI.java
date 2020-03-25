@@ -14,7 +14,7 @@ public class HttpAPI {
     public static void getAPPInfo(Map<String, String> params, Activity activity, final UICallBack callBack) {
 
 
-        HttpUtil httpUtil = new HttpUtil(Constraint.GET_APP_INFO, params, activity, false, new ResultCallBack() {
+        HttpPostUtil httpPostUtil = new HttpPostUtil(Constraint.GET_APP_INFO, params, activity, false, new ResultCallBack() {
             @Override
             public void onSuccess(String result) {
 
@@ -30,14 +30,14 @@ public class HttpAPI {
 
             }
         });
-        httpUtil.execRequest();
+        httpPostUtil.execRequest();
 
     }
 
-    public static void signList(Map<String, String> params, Activity activity, final UICallBack callBack) {
+    public static void sign(Map<String, String> params, Activity activity, final UICallBack callBack) {
 
 
-        HttpUtil httpUtil = new HttpUtil(Constraint.SIGNLIST, params, activity, false, new ResultCallBack() {
+        HttpPostUtil httpPostUtil = new HttpPostUtil(Constraint.SIGN, params, activity, false, new ResultCallBack() {
             @Override
             public void onSuccess(String result) {
 
@@ -51,14 +51,14 @@ public class HttpAPI {
 
             }
         });
-        httpUtil.execRequest();
+        httpPostUtil.execRequest();
 
     }
 
     public static void queryOrders(Map<String, String> params, Activity activity, final UICallBack callBack) {
 
 
-        HttpUtil httpUtil = new HttpUtil(Constraint.QUERY_ORDERS, params, activity, new ResultCallBack() {
+        HttpPostUtil httpPostUtil = new HttpPostUtil(Constraint.QUERY_ORDERS, params, activity, new ResultCallBack() {
             @Override
             public void onSuccess(String result) {
 
@@ -72,7 +72,7 @@ public class HttpAPI {
 
             }
         });
-        httpUtil.execRequest();
+        httpPostUtil.execRequest();
 
     }
 

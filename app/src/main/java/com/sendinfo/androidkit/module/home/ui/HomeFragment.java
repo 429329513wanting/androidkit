@@ -17,8 +17,8 @@ import com.sendinfo.androidkit.base.BaseMVPFragment;
 import com.sendinfo.androidkit.bean.LoginVo;
 import com.sendinfo.androidkit.module.home.adapter.TestAdapter;
 import com.sendinfo.androidkit.mvp.BaseResponse;
-import com.sendinfo.androidkit.mvp.CommonP;
-import com.sendinfo.androidkit.mvp.ICommonView;
+import com.sendinfo.androidkit.mvp.CommonResponseP;
+import com.sendinfo.androidkit.mvp.ICommonResponseView;
 import com.sendinfo.androidkit.widget.refreshHeader.LottiRefreshHeader;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ import butterknife.BindView;
  * </pre>
  */
 
-public class HomeFragment extends BaseMVPFragment<CommonP> implements ICommonView {
+public class HomeFragment extends BaseMVPFragment<CommonResponseP> implements ICommonResponseView {
 
     @BindView(R.id.sr_refresh)
     SmartRefreshLayout refreshLayout;
@@ -60,7 +60,7 @@ public class HomeFragment extends BaseMVPFragment<CommonP> implements ICommonVie
     protected void initView(Bundle bundle) {
 
         setContentView(R.layout.fragment_home);
-        mPresenter = new CommonP(this);
+        mPresenter = new CommonResponseP(this);
         initRecyc();
     }
 

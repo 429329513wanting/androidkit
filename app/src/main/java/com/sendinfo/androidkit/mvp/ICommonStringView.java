@@ -5,5 +5,6 @@ package com.sendinfo.androidkit.mvp;
  */
 
 public interface ICommonStringView extends IView {
-    void onSucess(String string, HttpDto httpDto);
+
+    void onSucess(String data, HttpDto httpDto);
 }

@@ -1,35 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
+    android:id="@+id/refresh_view"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
     tools:context=".UpMainActivity">
 
-    <Button
-        android:id="@+id/up_one_btn"
-        android:text="升级一日票"
+    <com.donkingliang.consecutivescroller.ConsecutiveScrollerLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        >
 
-    </Button>
+        <TextView
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:text="头部"
+            android:textColor="@color/main_cyan_color"
+            android:background="@color/my_blue"
+            android:layout_height="150dp">
 
-    <Button
-        android:id="@+id/up_two_btn"
-        android:text="升级二日票"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        </TextView>
 
-    </Button>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/up_curr_btn"
-        android:text="17点追加"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/up_one_btn"
+                android:text="升级一日票"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </Button>
 
-    </Button>
+            <Button
+                android:id="@+id/up_two_btn"
+                android:text="升级二日票"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-</LinearLayout>
+            </Button>
+
+            <Button
+                android:id="@+id/up_curr_btn"
+                android:text="17点追加"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </Button>
+
+            <Button
+                android:id="@+id/two_flower_btn"
+                android:text="二楼"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </Button>
+
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/blue_btn_bg_color">
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:textSize="22sp"
+            android:paddingLeft="20dp"
+            android:gravity="center_vertical"
+            android:text="标题二"
+            app:layout_isSticky="true"
+            android:textColor="#000"
+            android:background="#e11ccf"
+            android:layout_height="50dp">
+
+        </TextView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            app:layout_isConsecutive="true"
+            android:layout_height="match_parent"
+            android:background="#e9573f">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <HorizontalScrollView
+
+            android:layout_width="match_parent"
+            app:layout_isConsecutive="false"
+            android:id="@+id/h_scr"
+            android:scrollbars="none"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="155dp">
+
+                <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:background="#ccc"
+                        android:layout_height="115dp">
+
+                    </Button>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:background="#ccc"
+                        android:layout_height="115dp">
+
+                    </Button>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:background="#ccc"
+                        android:layout_height="115dp">
+
+                    </Button>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+        </HorizontalScrollView>
+
+    </com.donkingliang.consecutivescroller.ConsecutiveScrollerLayout>
+
+
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -345,6 +345,7 @@ public class JsonTool {
         return sb.toString();
     }
 
+
     /**
      * Convert a json string to List<?>
      * 将json转为list集合
@@ -379,6 +380,48 @@ public class JsonTool {
     public static <T> T jsonToObject(String json, Class<T> clazz) {
         Gson gson = new Gson();
         return gson.fromJson(json, clazz);
+    }
+
+    //json格式化输出
+    public static String jsonPrintFormat(String jsonStr) {
+        int level = 0;
+        StringBuffer jsonForMatStr = new StringBuffer();
+        for(int i=0;i<jsonStr.length();i++){
+            char c = jsonStr.charAt(i);
+            if(level>0&&'\n'==jsonForMatStr.charAt(jsonForMatStr.length()-1)){
+                jsonForMatStr.append(getLevelStr(level));
+            }
+            switch (c) {
+                case '{':
+                case '[':
+                    jsonForMatStr.append(c+"\n");
+                    level++;
+                    break;
+                case ',':
+                    jsonForMatStr.append(c+"\n");
+                    break;
+                case '}':
+                case ']':
+                    jsonForMatStr.append("\n");
+                    level--;
+                    jsonForMatStr.append(getLevelStr(level));
+                    jsonForMatStr.append(c);
+                    break;
+                default:
+                    jsonForMatStr.append(c);
+                    break;
+            }
+        }
+
+        return jsonForMatStr.toString();
+
+    }
+    private static String getLevelStr(int level){
+        StringBuffer levelStr = new StringBuffer();
+        for(int levelI = 0;levelI<level ; levelI++){
+            levelStr.append("\t");
+        }
+        return levelStr.toString();
     }
 
 }
