@@ -36,7 +36,6 @@ public class WebViewActivity extends BaseMVPActivity {
     @Override
     protected void initArgs(Intent intent) {
 
-
     }
 
     @Override

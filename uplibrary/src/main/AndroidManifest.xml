@@ -3,10 +3,14 @@
     package="com.example.uplibrary">
 
     <application>
-        <activity android:name=".FloorActivity"></activity>
+        <activity android:name=".VideoActivity"></activity>
+        <activity android:name=".VPFragmentActivity" />
+        <activity android:name=".IndicatorActivity" />
+        <activity android:name=".FloorActivity" />
         <activity android:name=".RecoardFaceActivity" />
         <activity android:name=".TicketListActivity" />
         <activity android:name=".UpMainActivity" />
+        <activity android:name=".widget.city.CityPickerActivity"></activity>
     </application>
 
 </manifest>

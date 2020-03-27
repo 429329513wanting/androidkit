@@ -1,6 +1,7 @@
 package com.example.uplibrary;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.LogUtils;
@@ -29,6 +31,11 @@ import com.example.uplibrary.http.HttpGetUtil;
 import com.example.uplibrary.http.JsonTool;
 import com.example.uplibrary.http.ResultCallBack;
 import com.example.uplibrary.http.UICallBack;
+import com.example.uplibrary.widget.PicassoImageEngine;
+import com.example.uplibrary.widget.city.CityPickerActivity;
+import com.maning.imagebrowserlibrary.ImageEngine;
+import com.maning.imagebrowserlibrary.MNImageBrowser;
+import com.maning.imagebrowserlibrary.model.ImageBrowserConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +51,7 @@ public class UpMainActivity extends AppCompatActivity {
     private TicketAdapter ticketAdapter;
     private SwipeRefreshLayout refresh_view;
     private HorizontalScrollView hscr;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +102,81 @@ public class UpMainActivity extends AppCompatActivity {
 
             }
         });
+        Button indiButton = findViewById(R.id.indicator_btn);
+        indiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ActivityUtils.startActivity(IndicatorActivity.class);
+            }
+        });
+
+        Button vpButton = findViewById(R.id.vp_fragment_btn);
+        vpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ActivityUtils.startActivity(VPFragmentActivity.class);
+
+            }
+        });
+        Button videoButton = findViewById(R.id.video_btn);
+        videoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ActivityUtils.startActivity(VideoActivity.class);
+
+            }
+        });
+        Button cityButton = findViewById(R.id.city_btn);
+        cityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(UpMainActivity.this, CityPickerActivity.class);
+                startActivityForResult(intent,1000);
+
+
+            }
+        });
+        Button browerButton = findViewById(R.id.brower_btn);
+        browerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ArrayList sourceImageList = new ArrayList<>();
+                sourceImageList.add("https://hqctv.oss-cn-beijing.aliyuncs.com/hqctv/1912/e970d89b-e1bd-4d6a-ad47-8ac7de902545.jpg");
+                sourceImageList.add("https://hqctv.oss-cn-beijing.aliyuncs.com/hqctv/2001/b3bcf018-4210-4231-bbd1-2abcb578df7b.jpg");
+                sourceImageList.add("https://hqctv.oss-cn-beijing.aliyuncs.com/hqctv/1912/0b5bea84-f50e-4d56-8bf1-01c8d3784fb0.jpg");
+                sourceImageList.add("https://hqctv.oss-cn-beijing.aliyuncs.com/hqctv/1907/f5d3d1dd-3345-4d15-876b-90fd91b7a1e3.jpg");
+                sourceImageList.add("https://hqctv.oss-cn-beijing.aliyuncs.com/hqctv/1912/c2b01b43-2cc5-4df6-9329-2425fb59792b.jpg");
+                sourceImageList.add("https://hqctv.oss-cn-beijing.aliyuncs.com/hqctv/1907/c472c40e-7c8c-46f2-adce-00ce3aadc079.jpg");
+                sourceImageList.add("https://hqctv.oss-cn-beijing.aliyuncs.com/hqctv/1912/185af0ef-abbe-4d3e-9492-1fdcd895a95a.jpg");
+                sourceImageList.add("https://hqctv.oss-cn-beijing.aliyuncs.com/hqctv/1912/5293140e-8a35-4c63-a23a-3b08e37d3335.jpg");
+
+                 ImageBrowserConfig.TransformType transformType = ImageBrowserConfig.TransformType.Transform_Default;
+                 ImageBrowserConfig.IndicatorType indicatorType = ImageBrowserConfig.IndicatorType.Indicator_Number;
+                 ImageBrowserConfig.ScreenOrientationType screenOrientationType = ImageBrowserConfig.ScreenOrientationType.Screenorientation_Default;
+                 ImageEngine imageEngine = new PicassoImageEngine();
+                 int openAnim = R.anim.mn_browser_enter_anim;
+                 int exitAnim = R.anim.mn_browser_exit_anim;
+
+                MNImageBrowser.with(UpMainActivity.this)
+                        .setCurrentPosition(0)
+                        .setImageEngine(imageEngine)
+                        .setImageList(sourceImageList)
+                        .setFullScreenMode(true)
+                        .setCustomProgressViewLayoutID(R.layout.layout_custom_progress_view)
+                        .setActivityOpenAnime(openAnim)
+                        .setActivityExitAnime(exitAnim)
+                        .show(new ImageView(UpMainActivity.this));
+
+
+
+            }
+        });
+
         initRecycler();
         hscr.setSmoothScrollingEnabled(true);
         hscr.pageScroll(View.FOCUS_LEFT);
@@ -265,5 +348,16 @@ public class UpMainActivity extends AppCompatActivity {
         }
 
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            if (requestCode == 1000){
+
+                ToastUtils.showLong((String) data.getExtras().get("city"));
+            }
+        }
     }
 }

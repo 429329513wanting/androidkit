@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".IndicatorActivity">
+
+    <com.shizhefei.view.indicator.ScrollIndicatorView
+        android:id="@+id/indicator_view"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+    </com.shizhefei.view.indicator.ScrollIndicatorView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#e8e8e8"
+        android:layout_weight="1">
+
+    </View>
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_margin="15sp"
+        android:id="@+id/view_pager"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+    </androidx.viewpager.widget.ViewPager>
+
+</LinearLayout>

@@ -60,7 +60,41 @@
 
             </Button>
 
+            <Button
+                android:id="@+id/indicator_btn"
+                android:text="indicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+            </Button>
+            <Button
+                android:id="@+id/vp_fragment_btn"
+                android:text="vp+fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </Button>
+            <Button
+                android:id="@+id/video_btn"
+                android:text="video"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </Button>
+            <Button
+                android:id="@+id/city_btn"
+                android:text="城市"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </Button>
+            <Button
+                android:id="@+id/brower_btn"
+                android:text="图片浏览"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </Button>
         </LinearLayout>
 
 
