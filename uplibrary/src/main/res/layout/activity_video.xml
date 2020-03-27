@@ -6,13 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".VideoActivity">
 
-    <SurfaceView
-        android:visibility="gone"
-        android:id="@+id/sur_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </SurfaceView>
 
     <com.maning.mnvideoplayerlibrary.player.MNViderPlayer
         android:id="@+id/mn_player"

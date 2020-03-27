@@ -7,11 +7,12 @@ import android.os.Bundle;
 import android.view.SurfaceView;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.SpanUtils;
 import com.maning.mnvideoplayerlibrary.listener.OnCompletionListener;
 import com.maning.mnvideoplayerlibrary.listener.OnNetChangeListener;
 import com.maning.mnvideoplayerlibrary.listener.OnScreenOrientationListener;
 import com.maning.mnvideoplayerlibrary.player.MNViderPlayer;
-import com.yhd.mediaplayer.MediaPlayerHelper;
 
 public class VideoActivity extends AppCompatActivity {
 
@@ -23,13 +24,13 @@ public class VideoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
-        surfaceView = findViewById(R.id.sur_view);
         mnViderPlayer = findViewById(R.id.mn_player);
-        //MediaPlayerHelper.getInstance().setSurfaceView(surfaceView).playUrl(this,"");
         mnViderPlayer.setWidthAndHeightProportion(16,9);
         mnViderPlayer.setIsNeedBatteryListen(true);
         mnViderPlayer.setIsNeedNetChangeListen(true);
-        mnViderPlayer.setDataSource(videoUrl,"塞班岛");
+        //mnViderPlayer.setDataSource(videoUrl,"塞班岛");
+        mnViderPlayer.playVideo(videoUrl,"塞班岛",SPUtils.getInstance().getInt("position",0));
+
         mnViderPlayer.setOnCompletionListener(new OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
@@ -73,6 +74,7 @@ public class VideoActivity extends AppCompatActivity {
     protected void onDestroy() {
 
         if (mnViderPlayer != null){
+            SPUtils.getInstance().put("position",mnViderPlayer.getVideoCurrentPosition());
             mnViderPlayer.destroyVideo();
             mnViderPlayer = null;
         }
