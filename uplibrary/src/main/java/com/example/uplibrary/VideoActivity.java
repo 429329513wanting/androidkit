@@ -28,7 +28,7 @@ public class VideoActivity extends AppCompatActivity {
         mnViderPlayer.setWidthAndHeightProportion(16,9);
         mnViderPlayer.setIsNeedBatteryListen(true);
         mnViderPlayer.setIsNeedNetChangeListen(true);
-        //mnViderPlayer.setDataSource(videoUrl,"塞班岛");
+        mnViderPlayer.setDataSource(videoUrl,"塞班岛");
         mnViderPlayer.playVideo(videoUrl,"塞班岛",SPUtils.getInstance().getInt("position",0));
 
         mnViderPlayer.setOnCompletionListener(new OnCompletionListener() {

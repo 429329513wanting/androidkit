@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 
 import com.blankj.utilcode.util.ActivityUtils;
@@ -24,6 +24,7 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.uplibrary.adapter.Page2Adapter;
 import com.example.uplibrary.adapter.TicketAdapter;
 import com.example.uplibrary.bean.FaceTicketVo;
 import com.example.uplibrary.http.HttpAPI;
@@ -39,6 +40,7 @@ import com.maning.imagebrowserlibrary.model.ImageBrowserConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UpMainActivity extends AppCompatActivity {
@@ -50,7 +52,7 @@ public class UpMainActivity extends AppCompatActivity {
     private ArrayList<FaceTicketVo> datas = new ArrayList<>();
     private TicketAdapter ticketAdapter;
     private SwipeRefreshLayout refresh_view;
-    private HorizontalScrollView hscr;
+    private ViewPager2 viewPager2;
 
 
     @Override
@@ -67,7 +69,7 @@ public class UpMainActivity extends AppCompatActivity {
         flowerBtn = findViewById(R.id.two_flower_btn);
         this.recyclerView = findViewById(R.id.recycler_view);
         this.refresh_view = findViewById(R.id.refresh_view);
-        hscr = findViewById(R.id.h_scr);
+        viewPager2 = findViewById(R.id.view_pager2);
 
         oneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +101,7 @@ public class UpMainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 ActivityUtils.startActivity(FloorActivity.class);
+                overridePendingTransition(R.anim.activity_anmie_alpha_leftscal_in,R.anim.activity_anmie_alpha_scal_out);
 
             }
         });
@@ -108,6 +111,7 @@ public class UpMainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 ActivityUtils.startActivity(IndicatorActivity.class);
+                overridePendingTransition(R.anim.activity_anmie_zoomin,R.anim.activity_anmie_zoomout);
             }
         });
 
@@ -117,6 +121,7 @@ public class UpMainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 ActivityUtils.startActivity(VPFragmentActivity.class);
+                overridePendingTransition(R.anim.activity_anmie_alpha_scal_in,R.anim.activity_anmie_alpha_scal_out);
 
             }
         });
@@ -136,6 +141,7 @@ public class UpMainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(UpMainActivity.this, CityPickerActivity.class);
                 startActivityForResult(intent,1000);
+                overridePendingTransition(R.anim.activity_anmie_in,R.anim.activity_anmie_out);
 
 
             }
@@ -178,70 +184,46 @@ public class UpMainActivity extends AppCompatActivity {
         });
 
         initRecycler();
-        hscr.setSmoothScrollingEnabled(true);
-        hscr.pageScroll(View.FOCUS_LEFT);
-
-        hscr.setOnTouchListener(new View.OnTouchListener() {
-
-            private int lastScrollX = 0;
-            private int TouchEventId = -9987832;
-
-            Handler handler = new Handler(){
-
-                @Override
-                public void handleMessage(@NonNull Message msg) {
-                    super.handleMessage(msg);
-
-                    int avwidth = ScreenUtils.getScreenWidth()-SizeUtils.dp2px(10)*2;
-
-                    if (msg.what == TouchEventId){
-
-                        if (lastScrollX == hscr.getScrollX()){
-
-                            int indexScrollTo = Math.round(lastScrollX/avwidth);
-                            LogUtils.d("", "stop scroll - " + lastScrollX
-                                    + "|" + avwidth
-                                    + "|" + lastScrollX/(avwidth)
-                                    + "|" + indexScrollTo);
-
-                            if (indexScrollTo > 0){
-
-                                hscr.smoothScrollTo(indexScrollTo*avwidth,0);
-                            }else {
-
-                                hscr.smoothScrollTo(0,0);
-                            }
-
-                        }else {
-
-                            handler.sendMessageDelayed(handler.obtainMessage(TouchEventId),100);
-                            lastScrollX = hscr.getScrollX();
-                        }
-                    }
+        initViewPage2();
 
 
-                }
-            };
-
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                LogUtils.d("", "touch event - action: " + event.getAction()
-                        + "|" + event.getX()
-                        + "|" + event.getY()
-                        + "|" + hscr.getScrollX()
-                        + "|" + hscr.getScrollY());
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    handler.sendMessageDelayed(handler.obtainMessage(TouchEventId), 100);
-                }
-
-                return false;
-            }
-        });
 
 
     }
+
+    private void initViewPage2() {
+
+        List<String>datas = new ArrayList<>();
+        for (int i=0;i<12;i++){
+
+            datas.add(i+"");
+        }
+        Page2Adapter page2Adapter = new Page2Adapter(datas);
+        viewPager2.setAdapter(page2Adapter);
+        viewPager2.setOffscreenPageLimit(2);
+        viewPager2.setCurrentItem(0);
+        viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                ToastUtils.showLong(position+"");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
+
+    }
+
+
     private void initRecycler(){
 
         for (int i=0;i<35;i++){

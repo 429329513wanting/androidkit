@@ -3,12 +3,16 @@ package com.example.uplibrary;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +22,9 @@ import com.example.uplibrary.fragment.CardFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VPFragmentActivity extends AppCompatActivity {
+public class VPFragmentActivity extends FragmentActivity {
 
-    ViewPager viewPager;
+    ViewPager2 viewPager;
     List<CardFragment>fragments = new ArrayList<>();
     private MyAdapter adapter;
 
@@ -40,26 +44,35 @@ public class VPFragmentActivity extends AppCompatActivity {
             fragments.add(fragment);
         }
         adapter = new MyAdapter(getSupportFragmentManager(),fragments);
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
+        //viewPager.setAdapter(adapter);
+        MyAdapter2 myAdapter2 = new MyAdapter2(this);
+        viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        viewPager.setAdapter(myAdapter2);
 
 
-            }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+    }
+    private class MyAdapter2 extends FragmentStateAdapter{
 
 
+        public MyAdapter2(@NonNull FragmentActivity fragmentActivity) {
+            super(fragmentActivity);
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            CardFragment fragment = new CardFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("position",position+"");
+            fragment.setArguments(bundle);
+            return fragment;
+        }
+
+        @Override
+        public int getItemCount() {
+            return 5;
+        }
     }
 
     private class MyAdapter extends FragmentStatePagerAdapter {

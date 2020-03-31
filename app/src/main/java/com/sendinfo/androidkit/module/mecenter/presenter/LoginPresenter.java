@@ -24,24 +24,26 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  *     author : ghwang
  *     e-mail : 429329513@qq.com
  *     time   : 2019/04/03
- *     desc   :
+ *     desc   : 父类实现了网络请求回调接口,
  * </pre>
  */
 
+
 public class LoginPresenter extends IPresenterImpl<LoginContract.View, BaseResponse>
         implements LoginContract.Presenter {
+
     public LoginPresenter(LoginContract.View view) {
         super(view);
     }
 
-    @Override
-    public void requestSuccess(String s, HttpDto httpDto) {
-        super.requestSuccess(s, httpDto);
 
-        BaseResponse response = null;
+    @Override
+    public void requestSuccess(BaseResponse response, HttpDto httpDto) {
+        super.requestSuccess(response, httpDto);
+        String data = JsonUtil.getJsonString(response);
         try {
 
-            response = JsonUtil.getObject(s,BaseResponse.class);
+            response = JsonUtil.getObject(data,BaseResponse.class);
 
         }catch (Exception e){
 

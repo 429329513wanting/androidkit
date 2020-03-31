@@ -11,12 +11,12 @@ import io.reactivex.Observable;
  * </pre>
  */
 
-public interface RequestCallBack<T> {
+public interface RequestCallBack<V> {
 
 
-    void requestSuccess(String s,HttpDto httpDto);
+    void requestSuccess(V s, HttpDto httpDto);
 
-    void requestSuccess(Observable<String>observable, HttpDto httpDto);
+    void requestSuccess(Observable<V>observable, HttpDto httpDto);
 
     void requestFail(String msg,HttpDto httpDto);
 

@@ -18,6 +18,7 @@ import com.sendinfo.androidkit.bean.LoginVo;
 import com.sendinfo.androidkit.module.home.adapter.TestAdapter;
 import com.sendinfo.androidkit.mvp.BaseResponse;
 import com.sendinfo.androidkit.mvp.CommonResponseP;
+import com.sendinfo.androidkit.mvp.HttpDto;
 import com.sendinfo.androidkit.mvp.ICommonResponseView;
 import com.sendinfo.androidkit.widget.refreshHeader.LottiRefreshHeader;
 
@@ -107,11 +108,7 @@ public class HomeFragment extends BaseMVPFragment<CommonResponseP> implements IC
 
 
     }
-    @Override
-    public void Success(BaseResponse response) {
 
-
-    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -126,5 +123,11 @@ public class HomeFragment extends BaseMVPFragment<CommonResponseP> implements IC
 
         }
         super.onHiddenChanged(hidden);
+    }
+
+    @Override
+    public void Success(BaseResponse response, HttpDto httpDto) {
+
+
     }
 }

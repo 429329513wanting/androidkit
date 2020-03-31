@@ -11,5 +11,5 @@ package com.sendinfo.androidkit.mvp;
 
 public interface ICommonResponseView extends IView {
 
-    void Success(BaseResponse response);
+    void Success(BaseResponse response,HttpDto httpDto);
 }

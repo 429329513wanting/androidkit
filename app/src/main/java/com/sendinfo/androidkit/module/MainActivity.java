@@ -8,13 +8,11 @@ import android.view.KeyEvent;
 
 import android.widget.RadioGroup;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.sendinfo.androidkit.R;
 import com.sendinfo.androidkit.base.BaseMVPActivity;
 import com.sendinfo.androidkit.base.MyApplication;
 import com.sendinfo.androidkit.module.home.ui.HomeFragment;
 import com.sendinfo.androidkit.module.mecenter.ui.MeFragment;
-import com.sendinfo.androidkit.demo.DemoComStringFragment;
 
 
 import butterknife.BindView;
@@ -54,8 +52,7 @@ public class MainActivity extends BaseMVPActivity {
 
             }else if (checkedId == R.id.order_rg){
 
-                clz = DemoComStringFragment.class;
-                myTopNavBar.setTitle("订单");
+
             }
 
             showOrHideFragment(R.id.container,clz);

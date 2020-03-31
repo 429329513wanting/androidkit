@@ -20,25 +20,10 @@ public class CommonResponseP extends IPresenterImpl<ICommonResponseView,BaseResp
     }
 
     @Override
-    public void requestSuccess(String data, HttpDto httpDto) {
-        super.requestSuccess(data,httpDto);
+    public void requestSuccess(BaseResponse data, HttpDto httpDto) {
 
-        BaseResponse baseResponse = null;
-        try {
+        mView.Success(data,httpDto);
 
-            baseResponse = JsonUtil.getObject(data,BaseResponse.class);
-
-
-        }catch (Exception e){
-
-            mView.showSweetDialog(SweetAlertDialog.ERROR_TYPE,"提示","解析异常");
-            e.printStackTrace();
-        }
-
-        if (baseResponse != null){
-
-            mView.Success(baseResponse);
-        }
 
     }
 

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.uplibrary.adapter.TicketAdapter;
 import com.example.uplibrary.bean.FaceTicketVo;
+import com.example.uplibrary.testcall.MyPresenter;
 import com.wuyr.secondfloorbehavior.OnStateChangeListener;
 import com.wuyr.secondfloorbehavior.SecondFloorBehavior;
 
@@ -76,6 +77,10 @@ public class FloorActivity extends AppCompatActivity {
                 behavior.leaveSecondFloor();
             }
         });
+
+
+        MyPresenter presenter = new MyPresenter();
+        presenter.getData();
 
 
     }

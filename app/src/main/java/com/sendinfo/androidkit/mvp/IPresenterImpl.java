@@ -1,6 +1,5 @@
 package com.sendinfo.androidkit.mvp;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.lzy.okgo.OkGo;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -61,7 +60,7 @@ public class IPresenterImpl<T extends IView,V> implements IPresenter,
 
 
     @Override
-    public void requestSuccess(String s, HttpDto httpDto) {
+    public void requestSuccess(V response, HttpDto httpDto) {
 
         if (isViewExist()){
 
@@ -90,7 +89,7 @@ public class IPresenterImpl<T extends IView,V> implements IPresenter,
     }
 
     @Override
-    public void requestSuccess(final Observable<String> observable, final HttpDto httpDto) {
+    public void requestSuccess(Observable<V> observable, final HttpDto httpDto) {
 
         if (isViewExist()){
 
@@ -109,7 +108,8 @@ public class IPresenterImpl<T extends IView,V> implements IPresenter,
             @Override public void onNext(Object o)
             {
 
-                requestSuccess((String) o,httpDto);
+                //调用了网络回调RequestCallBack的requestSuccess
+                requestSuccess((V)o,httpDto);
 
             }
 
