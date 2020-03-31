@@ -60,6 +60,8 @@ dependencies {
     api 'com.squareup.picasso:picasso:2.71828'
 
     implementation 'com.github.1054353861:RoundRectLayout:v1.0'
+    implementation 'com.sunfusheng:MarqueeView:1.4.0'
+
 
 
 

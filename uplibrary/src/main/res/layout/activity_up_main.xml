@@ -137,6 +137,22 @@
 
         </androidx.viewpager2.widget.ViewPager2>
 
+        <com.sunfusheng.marqueeview.MarqueeView
+            android:id="@+id/marque_view"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            app:mvAnimDuration="1000"
+            app:mvDirection="bottom_to_top"
+            app:mvInterval="3000"
+            app:mvTextColor="#000"
+            app:mvTextSize="14sp"
+            app:mvSingleLine="true"
+
+            >
+
+        </com.sunfusheng.marqueeview.MarqueeView>
+
 
     </com.donkingliang.consecutivescroller.ConsecutiveScrollerLayout>
 

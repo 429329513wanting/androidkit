@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.LogUtils;
@@ -37,6 +38,7 @@ import com.example.uplibrary.widget.city.CityPickerActivity;
 import com.maning.imagebrowserlibrary.ImageEngine;
 import com.maning.imagebrowserlibrary.MNImageBrowser;
 import com.maning.imagebrowserlibrary.model.ImageBrowserConfig;
+import com.sunfusheng.marqueeview.MarqueeView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,6 +55,7 @@ public class UpMainActivity extends AppCompatActivity {
     private TicketAdapter ticketAdapter;
     private SwipeRefreshLayout refresh_view;
     private ViewPager2 viewPager2;
+    private MarqueeView marqueeView;
 
 
     @Override
@@ -70,6 +73,20 @@ public class UpMainActivity extends AppCompatActivity {
         this.recyclerView = findViewById(R.id.recycler_view);
         this.refresh_view = findViewById(R.id.refresh_view);
         viewPager2 = findViewById(R.id.view_pager2);
+        marqueeView = findViewById(R.id.marque_view);
+
+        List<String>msgs = new ArrayList<>();
+        msgs.add("附近快到了发动机李开复家里开附近快到了发动机李开复家里开附近快到了发动机李开复家里开................");
+        msgs.add("附近快到了发动..........");
+
+        marqueeView.startWithList(msgs);
+        marqueeView.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, TextView textView) {
+
+
+            }
+        });
 
         oneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
