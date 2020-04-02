@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,6 +36,7 @@ import com.example.uplibrary.http.HttpGetUtil;
 import com.example.uplibrary.http.JsonTool;
 import com.example.uplibrary.http.ResultCallBack;
 import com.example.uplibrary.http.UICallBack;
+import com.example.uplibrary.service.MyService;
 import com.example.uplibrary.widget.PicassoImageEngine;
 import com.example.uplibrary.widget.city.CityPickerActivity;
 import com.maning.imagebrowserlibrary.ImageEngine;
@@ -56,6 +60,10 @@ public class UpMainActivity extends AppCompatActivity {
     private SwipeRefreshLayout refresh_view;
     private ViewPager2 viewPager2;
     private MarqueeView marqueeView;
+
+    private MyService myService;
+    private boolean isBound = false;
+    private ServiceConnection conn;
 
 
     @Override
@@ -200,12 +208,50 @@ public class UpMainActivity extends AppCompatActivity {
             }
         });
 
+        final ServiceConnection serviceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+
+                isBound = true;
+                MyService.MyBinder myBinder = (MyService.MyBinder) service;
+                myService = myBinder.getService();
+                myService.setFlag("flag haved changed from activity");
+
+
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+                isBound = false;
+            }
+        };
+        this.conn = serviceConnection;
+
+        Button serverButton = findViewById(R.id.server_btn);
+        serverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(UpMainActivity.this,MyService.class);
+                bindService(intent,serviceConnection,BIND_AUTO_CREATE);
+                startService(intent);
+            }
+        });
+
+
         initRecycler();
         initViewPage2();
 
 
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(conn);
     }
 
     private void initViewPage2() {

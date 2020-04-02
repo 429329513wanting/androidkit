@@ -103,7 +103,6 @@ public class MyApplication extends Application {
 
                 KLog.d("onActivityDestroyed: " + activity.getLocalClassName());
                 activityLinkedList.remove(activity);
-                // 在Activity结束时（Destroyed（）） 写出Activity实例
 
             }
         });

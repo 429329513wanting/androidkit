@@ -2,8 +2,11 @@ package com.example.uplibrary;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.SurfaceView;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -68,6 +71,19 @@ public class VideoActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+
+            Intent intent = new Intent();
+            intent.setComponent(new ComponentName("com.sendinfo.facestandard.linetake","com.sendinfo.facestandard.linetake.module.ComparisonCameraActivity"));
+            startActivity(intent);
+            finish();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="My">
+        <attr name="fontSize" format="dimension"></attr>
+    </declare-styleable>
+
+
+    <style name="Theme.AppCompat.Light">
+        <item name="android:windowBackground">#ccc</item>
+    </style>
+</resources>
