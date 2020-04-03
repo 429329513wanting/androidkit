@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -63,6 +63,8 @@ dependencies {
     implementation 'com.sunfusheng:MarqueeView:1.4.0'
     //https://github.com/drakeet/MultiType/tree/3.x
     implementation 'me.drakeet.multitype:multitype:3.5.0'
+    implementation project(':commonlib')
+
 
 
 

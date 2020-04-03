@@ -1,4 +1,4 @@
-package com.sendinfo.androidkit.widget.KLog;
+package com.sendinfo.commonlib.widget.KLog;
 
 import android.os.Environment;
 

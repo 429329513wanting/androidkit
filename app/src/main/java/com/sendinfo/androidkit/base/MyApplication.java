@@ -18,7 +18,7 @@ import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
 import com.sendinfo.androidkit.util.Constraint;
-import com.sendinfo.androidkit.widget.KLog.KLog;
+import com.sendinfo.commonlib.widget.KLog.KLog;
 import com.ycbjie.webviewlib.X5WebUtils;
 
 import java.util.LinkedList;

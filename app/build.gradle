@@ -102,6 +102,8 @@ dependencies {
     implementation 'com.xgr.easypay:alipay:2.0.0'
     implementation 'com.xgr.easypay:unionpay:2.0.0'
     implementation project(':uplibrary')
+    implementation project(':commonlib')
+
 
 
 }

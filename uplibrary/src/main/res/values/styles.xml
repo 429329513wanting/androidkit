@@ -5,7 +5,4 @@
     </declare-styleable>
 
 
-    <style name="Theme.AppCompat.Light">
-        <item name="android:windowBackground">#ccc</item>
-    </style>
 </resources>

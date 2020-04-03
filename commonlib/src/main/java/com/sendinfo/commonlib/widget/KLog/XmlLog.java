@@ -1,4 +1,4 @@
-package com.sendinfo.androidkit.widget.KLog;
+package com.sendinfo.commonlib.widget.KLog;
 
 import android.util.Log;
 
@@ -7,6 +7,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+
 
 import java.io.IOException;
 import java.io.StringReader;

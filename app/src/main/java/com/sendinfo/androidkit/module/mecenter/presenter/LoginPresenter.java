@@ -2,7 +2,6 @@ package com.sendinfo.androidkit.module.mecenter.presenter;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
-import com.j256.ormlite.logger.Log;
 import com.sendinfo.androidkit.bean.LoginVo;
 import com.sendinfo.androidkit.module.mecenter.contract.LoginContract;
 import com.sendinfo.androidkit.mvp.BaseModel;
