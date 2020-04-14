@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".VideoActivity">
 
 
@@ -11,10 +12,20 @@
         android:id="@+id/mn_player"
         android:background="#252525"
         app:mnFirstNeedPlay="true"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </com.maning.mnvideoplayerlibrary.player.MNViderPlayer>
+
+    <com.potyvideo.library.AndExoPlayerView
+        android:id="@+id/andPlayerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#252525"
+        android:visibility="gone"
+        app:andexo_show_controller="true">
+    </com.potyvideo.library.AndExoPlayerView>
 
 
 </LinearLayout>

@@ -19,6 +19,9 @@ import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
 import com.sendinfo.androidkit.util.Constraint;
 import com.sendinfo.commonlib.widget.KLog.KLog;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ycbjie.webviewlib.X5WebUtils;
 
 import java.util.LinkedList;
@@ -65,7 +68,12 @@ public class MyApplication extends Application {
         X5WebUtils.init(this);
 
 
+        //CrashReport.initCrashReport(this,"32c726a513",true);
+        Bugly.init(this,"32c726a513",true);
+        Beta.autoCheckUpgrade = false;
+        Beta.upgradeCheckPeriod = 30;
 
+        //CrashReport.testJavaCrash();
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {

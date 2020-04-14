@@ -10,7 +10,10 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".VideoActivity" />
+        <activity android:name=".VideoActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode">
+
+        </activity>
         <activity android:name=".VPFragmentActivity" />
         <activity android:name=".IndicatorActivity" />
         <activity android:name=".FloorActivity" />

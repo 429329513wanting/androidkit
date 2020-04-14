@@ -19,6 +19,10 @@ android {
                 APPLICATION_ID: applicationId,
         ]
 
+        ndk {
+            abiFilters('armeabi')
+        }
+
 
     }
     buildTypes {
@@ -103,7 +107,10 @@ dependencies {
     implementation 'com.xgr.easypay:unionpay:2.0.0'
     implementation project(':uplibrary')
     implementation project(':commonlib')
-
-
+    //bugly上报闪退
+    //implementation 'com.tencent.bugly:crashreport:3.2.1'
+    implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
+    //bugly版本更新
+    implementation 'com.tencent.bugly:crashreport_upgrade:1.4.5'
 
 }

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">upLibrary</string>
+    <string name="other_pack_name">com.sendinfo.facestandard.linetake</string>
+    <string name="other_pack_class">com.sendinfo.facestandard.linetake.module.ComparisonCameraActivity</string>
+
 </resources>

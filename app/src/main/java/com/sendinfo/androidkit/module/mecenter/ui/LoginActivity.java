@@ -19,6 +19,7 @@ import com.sendinfo.androidkit.module.mecenter.presenter.LoginPresenter;
 import com.sendinfo.androidkit.mvp.BaseModel;
 import com.sendinfo.androidkit.mvp.HttpDto;
 import com.sendinfo.androidkit.util.Constraint;
+import com.tencent.bugly.beta.Beta;
 
 import butterknife.OnClick;
 
@@ -49,6 +50,8 @@ public class LoginActivity extends BaseMVPActivity<LoginContract.Presenter>
     }
     @OnClick(R.id.login_btn)
     public void viewClick(View view){
+
+        Beta.checkUpgrade(true,false);
 
         HttpDto httpDto = new HttpDto(Constraint.LOGIN);
         BaseModel baseModel = new BaseModel();
