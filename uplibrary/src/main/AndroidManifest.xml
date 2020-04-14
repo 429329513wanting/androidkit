@@ -3,10 +3,12 @@
     package="com.example.uplibrary">
 
     <application>
+        <activity android:name=".ScrollYActivity"></activity>
+
         <service
             android:name=".service.MyService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity android:name=".VideoActivity" />
         <activity android:name=".VPFragmentActivity" />

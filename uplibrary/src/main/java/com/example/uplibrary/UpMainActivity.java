@@ -159,6 +159,16 @@ public class UpMainActivity extends AppCompatActivity {
 
             }
         });
+        Button scryButton = findViewById(R.id.scry_btn);
+        scryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ActivityUtils.startActivity(ScrollYActivity.class);
+
+
+            }
+        });
         Button cityButton = findViewById(R.id.city_btn);
         cityButton.setOnClickListener(new View.OnClickListener() {
             @Override
