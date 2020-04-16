@@ -181,6 +181,14 @@ public class UpMainActivity extends AppCompatActivity {
 
             }
         });
+        Button merageButton = findViewById(R.id.merage_btn);
+        merageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ActivityUtils.startActivity(MerageActivity.class);
+            }
+        });
         Button browerButton = findViewById(R.id.brower_btn);
         browerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,9 +260,6 @@ public class UpMainActivity extends AppCompatActivity {
 
         initRecycler();
         initViewPage2();
-
-
-
 
     }
 

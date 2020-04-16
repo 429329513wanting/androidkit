@@ -3,17 +3,17 @@
     package="com.example.uplibrary">
 
     <application>
-        <activity android:name=".ScrollYActivity"></activity>
+        <activity android:name=".MerageActivity"></activity>
+        <activity android:name=".ScrollYActivity" />
 
         <service
             android:name=".service.MyService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".VideoActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode">
-
-        </activity>
+        <activity
+            android:name=".VideoActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"></activity>
         <activity android:name=".VPFragmentActivity" />
         <activity android:name=".IndicatorActivity" />
         <activity android:name=".FloorActivity" />
