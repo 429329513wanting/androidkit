@@ -22,7 +22,16 @@ android {
         }
     }
 
+    sourceSets{
+
+        main{
+
+            jniLibs.srcDirs=['libs']
+        }
+    }
+
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -50,7 +59,7 @@ dependencies {
     implementation 'com.github.arcadefire:nice-spinner:1.4.3'
     api 'com.wuyr:secondfloorbehavior:1.0.4'
     //首页嵌套布局
-    implementation 'com.github.donkingliang:ConsecutiveScroller:2.1.0'
+    implementation 'com.github.donkingliang:ConsecutiveScroller:2.4.0'
     //指示器及滑动
     implementation 'com.shizhefei:ViewPagerIndicator:1.1.9.androidx'
     api 'com.github.maning0303:MNVideoPlayer:V1.0.9'

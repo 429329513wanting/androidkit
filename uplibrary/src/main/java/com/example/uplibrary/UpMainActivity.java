@@ -21,6 +21,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
@@ -37,6 +39,7 @@ import com.example.uplibrary.http.JsonTool;
 import com.example.uplibrary.http.ResultCallBack;
 import com.example.uplibrary.http.UICallBack;
 import com.example.uplibrary.service.MyService;
+import com.example.uplibrary.testcall.MyLocationListener;
 import com.example.uplibrary.widget.PicassoImageEngine;
 import com.example.uplibrary.widget.city.CityPickerActivity;
 import com.maning.imagebrowserlibrary.ImageEngine;
@@ -64,6 +67,9 @@ public class UpMainActivity extends AppCompatActivity {
     private MyService myService;
     private boolean isBound = false;
     private ServiceConnection conn;
+
+    private LocationClient locationClient;
+
 
 
     @Override
@@ -187,6 +193,22 @@ public class UpMainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 ActivityUtils.startActivity(MerageActivity.class);
+            }
+        });
+        Button locaButton = findViewById(R.id.location_btn);
+        locaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                locationClient = new LocationClient(getApplicationContext());
+                locationClient.registerLocationListener(new MyLocationListener());
+                LocationClientOption option = new LocationClientOption();
+                option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+                option.setScanSpan(0);
+                option.setCoorType("bd09ll");
+                option.setOpenGps(true);
+                locationClient.setLocOption(option);
+                locationClient.restart();
             }
         });
         Button browerButton = findViewById(R.id.brower_btn);

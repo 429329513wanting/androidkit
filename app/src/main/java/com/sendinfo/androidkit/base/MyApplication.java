@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.SystemClock;
+
 import androidx.multidex.MultiDex;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -71,7 +73,9 @@ public class MyApplication extends Application {
         //CrashReport.initCrashReport(this,"32c726a513",true);
         Bugly.init(this,"32c726a513",true);
         Beta.autoCheckUpgrade = false;
-        Beta.upgradeCheckPeriod = 30;
+        LogUtils.d("开机时间:"+ SystemClock.uptimeMillis());
+        LogUtils.d("时间:"+ System.currentTimeMillis());
+
 
         //CrashReport.testJavaCrash();
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
