@@ -1,6 +1,5 @@
 package com.example.uplibrary;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,8 +13,6 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,12 +23,11 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BaiduMapOptions;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.LogoPosition;
 import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
@@ -41,8 +37,6 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ScreenUtils;
-import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -51,12 +45,9 @@ import com.example.uplibrary.adapter.TicketAdapter;
 import com.example.uplibrary.bean.FaceTicketVo;
 import com.example.uplibrary.bean.FaceVo;
 import com.example.uplibrary.http.HttpAPI;
-import com.example.uplibrary.http.HttpGetUtil;
 import com.example.uplibrary.http.JsonTool;
-import com.example.uplibrary.http.ResultCallBack;
 import com.example.uplibrary.http.UICallBack;
 import com.example.uplibrary.service.MyService;
-import com.example.uplibrary.testcall.MyLocationListener;
 import com.example.uplibrary.widget.PicassoImageEngine;
 import com.example.uplibrary.widget.city.CityPickerActivity;
 import com.maning.imagebrowserlibrary.ImageEngine;
@@ -90,6 +81,7 @@ public class UpMainActivity extends AppCompatActivity {
 
     private MapView mapView;
     private BaiduMap mBaiduMap;
+    private InfoWindow curInfoWindow;
 
     class MyLocationListener extends BDAbstractLocationListener {
         @Override
@@ -149,11 +141,10 @@ public class UpMainActivity extends AppCompatActivity {
         builder.zoom(18.0f);
         builder.target(new LatLng(30.2849159999,120.1523159));
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
-
         mBaiduMap.setMyLocationEnabled(true);
 
         //定义Maker坐标点
-        LatLng point = new LatLng(30.2949159999, 120.1723159);
+        final LatLng point = new LatLng(30.2949159999, 120.1723159);
         BitmapDescriptor bitmap = BitmapDescriptorFactory
                 .fromResource(R.drawable.map);
 
@@ -167,15 +158,66 @@ public class UpMainActivity extends AppCompatActivity {
         bundle.putSerializable("obj",faceVo);
         marker.setExtraInfo(bundle);
 
+        final LatLng point2 = new LatLng(30.3349159999, 120.1923159);
+        BitmapDescriptor bitmap2 = BitmapDescriptorFactory
+                .fromResource(R.drawable.map);
 
+        OverlayOptions option2 = new MarkerOptions()
+                .position(point2)
+                .icon(bitmap2);
+        Marker marker2 = (Marker) mBaiduMap.addOverlay(option2);
+        Bundle bundle2 = new Bundle();
+        FaceVo faceVo2 = new FaceVo();
+        faceVo2.type = "face2";
+        bundle2.putSerializable("obj",faceVo2);
+        marker2.setExtraInfo(bundle2);
 
         //marker点击事件
         BaiduMap.OnMarkerClickListener markerClickListener = new BaiduMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
 
+                if (curInfoWindow != null){
+
+                    mBaiduMap.hideInfoWindow(curInfoWindow);
+                }
                 FaceVo faceVo1 = (FaceVo) marker.getExtraInfo().getSerializable("obj");
                 ToastUtils.showLong(faceVo1.type);
+
+                //infoWindow
+                View infoView = getLayoutInflater().inflate(R.layout.info_window_layout,null);
+                BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(infoView);
+
+                InfoWindow.OnInfoWindowClickListener infoWindowClickListener = new InfoWindow.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick() {
+
+                        ToastUtils.showLong("infoWindow click");
+                    }
+                };
+                InfoWindow infoWindow = null;
+                LatLng lng = null;
+                if (faceVo1.type.equals("face")){
+
+                    infoWindow = new InfoWindow(bitmapDescriptor,point,-100,infoWindowClickListener);
+                    lng = point;
+
+                }else {
+
+                    infoWindow = new InfoWindow(bitmapDescriptor,point2,-100,infoWindowClickListener);
+                    lng = point2;
+
+                }
+                mBaiduMap.showInfoWindow(infoWindow);
+                curInfoWindow = infoWindow;
+
+                //移动地图中心点
+                MapStatus.Builder builder = new MapStatus.Builder();
+                builder.target(lng);
+                //builder.zoom(16);
+                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+
+
                 return false;
             }
         };
