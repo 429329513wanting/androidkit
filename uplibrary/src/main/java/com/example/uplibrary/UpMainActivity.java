@@ -21,8 +21,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BaiduMapOptions;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.LogoPosition;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.model.LatLng;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
@@ -33,6 +49,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.uplibrary.adapter.Page2Adapter;
 import com.example.uplibrary.adapter.TicketAdapter;
 import com.example.uplibrary.bean.FaceTicketVo;
+import com.example.uplibrary.bean.FaceVo;
 import com.example.uplibrary.http.HttpAPI;
 import com.example.uplibrary.http.HttpGetUtil;
 import com.example.uplibrary.http.JsonTool;
@@ -47,6 +64,7 @@ import com.maning.imagebrowserlibrary.MNImageBrowser;
 import com.maning.imagebrowserlibrary.model.ImageBrowserConfig;
 import com.sunfusheng.marqueeview.MarqueeView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +88,39 @@ public class UpMainActivity extends AppCompatActivity {
 
     private LocationClient locationClient;
 
+    private MapView mapView;
+    private BaiduMap mBaiduMap;
 
+    class MyLocationListener extends BDAbstractLocationListener {
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+
+
+            double latitude = location.getLatitude();    //获取纬度信息
+            double longitude = location.getLongitude();    //获取经度信息
+            float radius = location.getRadius();    //获取定位精度，默认值为0.0f
+
+            String coorType = location.getCoorType();
+            //获取经纬度坐标类型，以LocationClientOption中设置过的坐标类型为准
+
+            LogUtils.d("latitude:"+ new BigDecimal(latitude).toString(),
+                    "longitude:"+new BigDecimal(longitude).toString(),"addr:"+location.getAddrStr());
+
+
+            int errorCode = location.getLocType();
+            //获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明
+
+            if (location == null || mapView == null){
+                return;
+            }
+            MyLocationData locData = new MyLocationData.Builder()
+                    .accuracy(location.getRadius())
+                    // 此处设置开发者获取到的方向信息，顺时针0-360
+                    .direction(location.getDirection()).latitude(location.getLatitude())
+                    .longitude(location.getLongitude()).build();
+            mBaiduMap.setMyLocationData(locData);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +130,7 @@ public class UpMainActivity extends AppCompatActivity {
         Utils.init(this);
         LogUtils.d("UpMainActivity");
 
+
         oneBtn = findViewById(R.id.up_one_btn);
         twoBtn = findViewById(R.id.up_two_btn);
         currBtn = findViewById(R.id.up_curr_btn);
@@ -88,6 +139,88 @@ public class UpMainActivity extends AppCompatActivity {
         this.refresh_view = findViewById(R.id.refresh_view);
         viewPager2 = findViewById(R.id.view_pager2);
         marqueeView = findViewById(R.id.marque_view);
+
+        //百度地图部分
+        mapView = findViewById(R.id.map_view);
+        mapView.setLogoPosition(LogoPosition.logoPostionleftBottom);
+        mBaiduMap = mapView.getMap();
+
+        MapStatus.Builder builder = new MapStatus.Builder();
+        builder.zoom(18.0f);
+        builder.target(new LatLng(30.2849159999,120.1523159));
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+
+        mBaiduMap.setMyLocationEnabled(true);
+
+        //定义Maker坐标点
+        LatLng point = new LatLng(30.2949159999, 120.1723159);
+        BitmapDescriptor bitmap = BitmapDescriptorFactory
+                .fromResource(R.drawable.map);
+
+        OverlayOptions option = new MarkerOptions()
+                .position(point)
+                .icon(bitmap);
+        Marker marker = (Marker) mBaiduMap.addOverlay(option);
+        Bundle bundle = new Bundle();
+        FaceVo faceVo = new FaceVo();
+        faceVo.type = "face";
+        bundle.putSerializable("obj",faceVo);
+        marker.setExtraInfo(bundle);
+
+
+
+        //marker点击事件
+        BaiduMap.OnMarkerClickListener markerClickListener = new BaiduMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                FaceVo faceVo1 = (FaceVo) marker.getExtraInfo().getSerializable("obj");
+                ToastUtils.showLong(faceVo1.type);
+                return false;
+            }
+        };
+        mBaiduMap.setOnMarkerClickListener(markerClickListener);
+        //地图事件回调
+        BaiduMap.OnMapStatusChangeListener statusChangeListener = new BaiduMap.OnMapStatusChangeListener() {
+            @Override
+            public void onMapStatusChangeStart(MapStatus mapStatus) {
+
+            }
+
+            @Override
+            public void onMapStatusChangeStart(MapStatus mapStatus, int i) {
+
+                String type = "";
+                if (i==1){
+                    type = "手势操作";
+
+                }else if(i == 2){
+
+                    type = "地图API自己调用";
+
+                }else {
+                    type = "开发者调用";
+                }
+                ToastUtils.showLong("handletype:"+type);
+            }
+
+            @Override
+            public void onMapStatusChange(MapStatus mapStatus) {
+
+            }
+
+            @Override
+            public void onMapStatusChangeFinish(MapStatus mapStatus) {
+
+                ToastUtils.showLong(mapStatus.target.latitude+""+"\n"+mapStatus.target.longitude+"");
+                LogUtils.d(mapStatus.target.latitude+"",mapStatus.target.longitude+"");
+            }
+        };
+        mBaiduMap.setOnMapStatusChangeListener(statusChangeListener);
+
+
+
+        //
 
         List<String>msgs = new ArrayList<>();
         msgs.add("附近快到了发动机李开复家里开附近快到了发动机李开复家里开附近快到了发动机李开复家里开................");
@@ -101,6 +234,8 @@ public class UpMainActivity extends AppCompatActivity {
 
             }
         });
+
+
 
         oneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,6 +306,16 @@ public class UpMainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 ActivityUtils.startActivity(ScrollYActivity.class);
+
+
+            }
+        });
+        Button fastButton = findViewById(R.id.fast_btn);
+        fastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ActivityUtils.startActivity(FastActivity.class);
 
 
             }
@@ -286,9 +431,22 @@ public class UpMainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         unbindService(conn);
+        mapView.onDestroy();
     }
 
     private void initViewPage2() {

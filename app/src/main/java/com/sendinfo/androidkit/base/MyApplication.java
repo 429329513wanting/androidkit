@@ -8,6 +8,8 @@ import android.os.SystemClock;
 
 import androidx.multidex.MultiDex;
 
+import com.baidu.mapapi.CoordType;
+import com.baidu.mapapi.SDKInitializer;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.Utils;
@@ -69,6 +71,8 @@ public class MyApplication extends Application {
 
         X5WebUtils.init(this);
 
+        SDKInitializer.initialize(this);
+        SDKInitializer.setCoordType(CoordType.BD09LL);
 
         //CrashReport.initCrashReport(this,"32c726a513",true);
         Bugly.init(this,"32c726a513",true);

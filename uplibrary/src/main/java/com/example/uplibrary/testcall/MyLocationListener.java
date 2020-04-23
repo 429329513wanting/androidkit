@@ -21,6 +21,7 @@ public class MyLocationListener extends BDAbstractLocationListener {
         LogUtils.d("latitude:"+ new BigDecimal(latitude).toString(),
                 "longitude:"+new BigDecimal(longitude).toString(),"addr:"+location.getAddrStr());
 
+
         int errorCode = location.getLocType();
         //获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明
     }

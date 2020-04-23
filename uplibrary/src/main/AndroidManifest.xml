@@ -3,14 +3,13 @@
     package="com.example.uplibrary">
 
     <application>
-
+        <activity android:name=".FastActivity"></activity>
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="AKbmqx6uSYz5AcD11oQkypqCoXCBDEGs" >
-        </meta-data>
+            android:value="AKbmqx6uSYz5AcD11oQkypqCoXCBDEGs"></meta-data>
 
-        <activity android:name=".MerageActivity"></activity>
+        <activity android:name=".MerageActivity" />
         <activity android:name=".ScrollYActivity" />
 
         <service
@@ -20,7 +19,7 @@
 
         <activity
             android:name=".VideoActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"></activity>
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode" />
         <activity android:name=".VPFragmentActivity" />
         <activity android:name=".IndicatorActivity" />
         <activity android:name=".FloorActivity" />
@@ -28,8 +27,11 @@
         <activity android:name=".TicketListActivity" />
         <activity android:name=".UpMainActivity" />
         <activity android:name=".widget.city.CityPickerActivity" />
-        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote"> </service>
 
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote"></service>
     </application>
 
 </manifest>

@@ -25,6 +25,7 @@ public class PresentImpl implements ResCallBack {
     @Override
     public void onSuccess(ResponseVo obj) {
 
+
     }
 
     @Override

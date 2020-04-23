@@ -1,1 +1,1 @@
-include ':app', ':uplibrary', ':commonlib'
+include ':app', ':uplibrary', ':commonlib', ':navigation'

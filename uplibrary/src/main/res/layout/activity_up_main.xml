@@ -48,6 +48,7 @@
             <Button
                 android:id="@+id/up_curr_btn"
                 android:text="17点追加"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -124,6 +125,13 @@
                 android:layout_height="wrap_content">
 
             </Button>
+            <Button
+                android:id="@+id/fast_btn"
+                android:text="fastlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </Button>
         </LinearLayout>
 
 
@@ -181,6 +189,13 @@
             >
 
         </com.sunfusheng.marqueeview.MarqueeView>
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.baidu.mapapi.map.MapView>
 
 
     </com.donkingliang.consecutivescroller.ConsecutiveScrollerLayout>

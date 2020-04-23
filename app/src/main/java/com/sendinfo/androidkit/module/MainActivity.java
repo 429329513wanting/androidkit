@@ -29,6 +29,7 @@ public class MainActivity extends BaseMVPActivity {
     @Override
     protected void initArgs(Intent intent) {
 
+
     }
 
     @Override

@@ -37,7 +37,6 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public abstract class BaseMVPFragment<T extends IPresenter>
         extends RxFragment implements IView {
 
-
     // 将代理类通用行为抽出来
     protected T mPresenter;
     private LayoutInflater inflater;

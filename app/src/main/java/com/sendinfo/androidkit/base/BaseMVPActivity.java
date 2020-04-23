@@ -270,7 +270,9 @@ public abstract class BaseMVPActivity<T extends IPresenter>
         }
     }
 
-    @NonNull @Override public LifecycleTransformer<Object> bindLifeCycle() {
+    @NonNull
+    @Override
+    public LifecycleTransformer<Object> bindLifeCycle() {
 
         return this.bindUntilEvent(ActivityEvent.DESTROY);
     }

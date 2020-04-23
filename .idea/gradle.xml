@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/commonlib" />
+            <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/uplibrary" />
           </set>
         </option>
