@@ -1,6 +1,8 @@
 package com.sendinfo.androidkit.base;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.othershe.nicedialog.NiceDialog;
@@ -75,6 +78,11 @@ public abstract class BaseMVPFragment<T extends IPresenter>
             e.printStackTrace();
         }
         return mView;
+    }
+
+    @Override
+    public SweetAlertDialog.OnSweetClickListener getFinishListener() {
+        return finishListener;
     }
 
     @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
@@ -147,6 +155,17 @@ public abstract class BaseMVPFragment<T extends IPresenter>
             ToastUtils.showLong(msg);
         }
     }
+    public SweetAlertDialog.OnSweetClickListener finishListener = new SweetAlertDialog.OnSweetClickListener()
+    {
+        @Override public void onClick(SweetAlertDialog sweetAlertDialog)
+        {
+            sweetAlertDialog.dismissWithAnimation();
+            Intent intent = new Intent(MyApplication.getContext(), Activity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityUtils.startActivity(intent);
+            getActivity().finish();
+        }
+    };
 
     @Override
     public void showProgressDialog() {

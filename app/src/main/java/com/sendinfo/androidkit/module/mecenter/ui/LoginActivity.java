@@ -53,7 +53,7 @@ public class LoginActivity extends BaseMVPActivity<LoginContract.Presenter>
 
         Beta.checkUpgrade(true,false);
 
-        HttpDto httpDto = new HttpDto(Constraint.LOGIN);
+        HttpDto httpDto = new HttpDto(Constraint.LOGIN).setTryAgain(true);
         BaseModel baseModel = new BaseModel();
         baseModel.username = "13867551710";
         baseModel.password = EncryptUtils.encryptMD5ToString("123456").toLowerCase();

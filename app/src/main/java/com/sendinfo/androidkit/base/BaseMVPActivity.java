@@ -1,5 +1,6 @@
 package com.sendinfo.androidkit.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -166,6 +168,23 @@ public abstract class BaseMVPActivity<T extends IPresenter>
                 sweetAlertDialog.dismiss();
             }
         }, null);
+    }
+    public SweetAlertDialog.OnSweetClickListener finishListener = new SweetAlertDialog.OnSweetClickListener()
+    {
+        @Override public void onClick(SweetAlertDialog sweetAlertDialog)
+        {
+            sweetAlertDialog.dismissWithAnimation();
+            Intent intent = new Intent(getApplicationContext(), Activity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityUtils.startActivity(intent);
+            finish();
+        }
+    };
+
+    @Override
+    public SweetAlertDialog.OnSweetClickListener getFinishListener() {
+
+        return finishListener;
     }
 
     @Override

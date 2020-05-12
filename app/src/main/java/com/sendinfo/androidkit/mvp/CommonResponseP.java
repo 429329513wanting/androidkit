@@ -30,6 +30,5 @@ public class CommonResponseP extends IPresenterImpl<ICommonResponseView,BaseResp
     @Override
     public void requestFail(String msg, HttpDto httpDto) {
         super.requestFail(msg, httpDto);
-
     }
 }

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * <pre>
@@ -129,5 +130,11 @@ public class HomeFragment extends BaseMVPFragment<CommonResponseP> implements IC
     public void Success(BaseResponse response, HttpDto httpDto) {
 
 
+    }
+
+
+    @Override
+    public SweetAlertDialog.OnSweetClickListener getFinishListener() {
+        return null;
     }
 }

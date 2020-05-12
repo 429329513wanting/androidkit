@@ -33,10 +33,13 @@ public class HttpDto {
     private int method = POST;
     private Object tag;
 
+    private boolean tryAgain;//是否重新发送请求
+    private boolean finish;//是否回到主界面
 
     //是否显示加载网络提示框
     private boolean silence = false;
 
+    //form参数提交
     private Map<String, String> params;
 
     //一般的字符串提交
@@ -174,7 +177,6 @@ public class HttpDto {
         this.bodyJson = bodyJson;
         return this;
     }
-
     public HttpDto setBaseModel(BaseModel baseModel) {
         this.baseModel = baseModel;
         this.params = JsonUtil.getMapForObj(this.baseModel);
@@ -194,6 +196,24 @@ public class HttpDto {
 
     public HttpDto setSilence(boolean silence) {
         this.silence = silence;
+        return this;
+    }
+
+    public boolean isTryAgain() {
+        return tryAgain;
+    }
+
+    public HttpDto setTryAgain(boolean tryAgain) {
+        this.tryAgain = tryAgain;
+        return this;
+    }
+
+    public boolean isFinish() {
+        return finish;
+    }
+
+    public HttpDto setFinish(boolean finish) {
+        this.finish = finish;
         return this;
     }
 

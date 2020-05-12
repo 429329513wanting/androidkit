@@ -74,9 +74,66 @@ public class IPresenterImpl<T extends IView,V> implements IPresenter,
 
         if (isViewExist()){
 
-            mView.showSweetDialog(SweetAlertDialog.ERROR_TYPE,"提示",msg);
-
             mView.dismissDialogForRequest();
+
+            String title = "";
+            String info = "";
+            if(msg.contains("Timeout"))
+            {
+                title = "连接服务器超时";
+                info = "数据加载失败，请重试！";
+            }
+            else if(msg.contains("504"))
+            {
+                title = "无网络服务";
+                info = "请检查网络后重试！";
+            }
+            else if(msg.contains("Failed to connect"))
+            {
+                title = "服务器异常";
+                info = "请稍后重试！";
+            }
+            else if(msg.contains("网络请求失败"))
+            {
+                title = "网络请求失败";
+                info = "请稍后重试！";
+            }
+            else
+            {
+                title = "对不起，访问出错了";
+                info = "请稍后重试！";
+            }
+
+
+            if (httpDto.isTryAgain()){
+
+                if (httpDto.isFinish()){
+
+                    mView.showSweetDialog(SweetAlertDialog.ERROR_TYPE, title, info, "重试", "取消", new SweetAlertDialog.OnSweetClickListener()
+                    {
+                        @Override public void onClick(SweetAlertDialog sweetAlertDialog)
+                        {
+                            getData(httpDto);
+                        }
+                    }, mView.getFinishListener());
+
+                }else {
+
+                    mView.showSweetDialog(SweetAlertDialog.ERROR_TYPE, title, info, "重试", "取消", new SweetAlertDialog.OnSweetClickListener()
+                    {
+                        @Override public void onClick(SweetAlertDialog sweetAlertDialog)
+                        {
+                            getData(httpDto);
+                        }
+                    }, null);
+                }
+
+            }else {
+
+
+                mView.showSweetDialog(SweetAlertDialog.ERROR_TYPE,title,msg);
+
+            }
 
         }
 

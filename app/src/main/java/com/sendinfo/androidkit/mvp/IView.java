@@ -31,4 +31,7 @@ public interface IView {
     boolean isFastClick();
     void hideKeyBoard();
     void showKeyBoard(EditText editText);
+
+    SweetAlertDialog.OnSweetClickListener getFinishListener();
+
 }
