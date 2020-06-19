@@ -84,11 +84,13 @@
         <activity android:name=".module.other.ui.WelcomActivity" />
         <activity android:name=".module.MainActivity" /> <!-- 打开相册获取图片适配 -->
         <provider
+            tools:replace="android:authorities"
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.sendinfo.androidkit.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
+                tools:replace="android:resource"
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"></meta-data>
         </provider>
