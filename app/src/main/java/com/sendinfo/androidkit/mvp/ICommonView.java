@@ -9,7 +9,7 @@ package com.sendinfo.androidkit.mvp;
  * </pre>
  */
 
-public interface ICommonResponseView extends IView {
+public interface ICommonView extends IView {
 
     void Success(BaseResponse response,HttpDto httpDto);
 }
